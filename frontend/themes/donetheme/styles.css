@@ -1,0 +1,73 @@
+/*---------------------------------------------------root style compnents */
+@font-face {
+  font-family: donemain;
+  src: url("/terminal-grotesque.ttf");
+}
+@font-face {
+  font-family: donesecondary;
+  src: url("/Eirian.ttf");
+}
+.notification::part(overlay){
+    background-color: black;
+    color: white;
+    font-family:donesecondary;
+    border: 1px;
+    border-style: solid;
+    border-color: white;
+}
+.textfield{
+    font-family: donesecondary;
+    border-color: #c47cd4;
+    --vaadin-input-field-border-width: 1px;
+    --vaadin-input-field-border-color: black;
+    --vaadin-input-field-placeholder-color: black;
+    --vaadin-input-field-value-color: black;
+    --vaadin-input-field-label-color: black;
+    --vaadin-input-field-focused-label-color: red;
+    --vaadin-input-field-background: transparent;
+    --vaadin-input-field-hover-highlight: red;
+}
+.buttonprimary{
+   --lumo-primary-color:black;
+    background-color: transparent;
+    color: black;
+    font-family: donemain;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
+.buttonprimary[focused]{
+/   background-color: red;
+}
+.buttonsecondary{
+
+}
+/*---------------------------------------------------components styles */
+.logincomponent{
+
+}
+.logincomponent H1{
+    font-family: donemain;
+    font-size: 7rem;
+}
+.logincomponent H6{
+    font-family: donesecondary;
+}
+.header{
+
+}
+.header H4{
+    font-family: donesecondary;
+    color: black;
+}
+/*---------------------------------------------------views aka pages styles*/
+.loginview{
+    background-color: white;
+}
+.taskview{
+    background-color: white;
+}
+.taskview H1{
+    font-family:donemain;
+    color: black;
+}
