@@ -1,9 +1,17 @@
+/**
+ * by Jakub Wawak
+ * kubawawak@gmail.com
+ * all right reserved
+ */
 package com.jakubwawak.done.backend.entity;
 
+import com.jakubwawak.done.DoneApplication;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Object for storing entity information about a journal task
@@ -14,17 +22,18 @@ public class DoneTask {
     public String task_name;
     public String task_status;
     public String task_timestamp;
-    public ArrayList<String> task_comments;
+    public List<String> task_comments;
 
     /**
      * Default constructor
      */
     public DoneTask() {
         task_id = null;
-        user_id = null;
-        task_name = "";
+        user_id = DoneApplication.loggedUser.user_id;
+        task_name = "NEW";
         task_status = "";
-        task_timestamp = "";
+        task_timestamp = LocalDateTime.now().toString();
+        task_comments = new ArrayList<>();
     }
 
     /**
@@ -38,11 +47,24 @@ public class DoneTask {
         task_name = document.getString("task_name");
         task_status = document.getString("task_status");
         task_timestamp = document.getString("task_timestamp");
+        task_comments = document.getList("task_comments",String.class);
+    }
+
+    /**
+     * Constructor with quick init
+     * @param task_name
+     */
+    public DoneTask(String task_name){
+        task_id = null;
+        user_id = DoneApplication.loggedUser.user_id;
+        this.task_name = task_name;
+        task_status = "NEW";
+        task_timestamp = LocalDateTime.now().toString();
+        task_comments = new ArrayList<>();
     }
 
     /**
      * Function for preparing a document representation of the object
-     *
      * @return Document representing the task
      */
     public Document prepareDocument() {
@@ -52,6 +74,7 @@ public class DoneTask {
         document.append("task_name", task_name);
         document.append("task_status", task_status);
         document.append("task_timestamp", task_timestamp);
+        document.append("task_comments",task_comments);
         return document;
     }
 }
