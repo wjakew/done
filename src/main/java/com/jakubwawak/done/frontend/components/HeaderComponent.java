@@ -13,6 +13,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+import static com.jakubwawak.done.DoneApplication.UI_WIDTH;
+
 /**
  * Object for creating header component
  */
@@ -24,7 +26,7 @@ public class HeaderComponent extends HorizontalLayout {
 
     public HeaderComponent(){
         super();
-        setWidth("80%");
+        setWidth(UI_WIDTH);
         addClassName("header");
         setAlignItems(Alignment.CENTER);
         setVerticalComponentAlignment(Alignment.CENTER);

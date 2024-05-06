@@ -69,7 +69,6 @@ public class DoneTask {
      */
     public Document prepareDocument() {
         Document document = new Document();
-        document.append("_id", task_id); // Use "_id" for MongoDB's default identifier field
         document.append("user_id", user_id);
         document.append("task_name", task_name);
         document.append("task_status", task_status);

@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done040524REV1";
+	public static String build = "done060524REV1";
 	public static String version = "1.0.0";
 
 	public static Database database; // database connector
@@ -38,6 +38,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 
 	public static DoneMenu menu;
 
+	public static String UI_WIDTH = "80%";
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
 			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 

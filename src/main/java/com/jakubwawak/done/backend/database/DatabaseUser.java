@@ -65,10 +65,18 @@ public class DatabaseUser {
             Password_Validator pv = new Password_Validator(userPassword);
             MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
             Document user_document = user_collection.find(new Document("user_email",userEmail)).first();
-            DoneUser user = new DoneUser(user_document);
-            if ( user.user_password.equals(pv.hash()) ){
-                database.log("DB-JUSER-LOGIN","Found user ("+userEmail+") logging in!");
-                return user;
+            if ( user_document != null ){
+                DoneUser user = new DoneUser(user_document);
+                if ( user.user_password.equals(pv.hash()) ){
+                    database.log("DB-JUSER-LOGIN","Found user ("+userEmail+") logging in!");
+                    return user;
+                }
+                else{
+                    database.log("DB-JUSER-LOGIN-FAILED","Failed to login user ("+userEmail+") wrong password");
+                }
+            }
+            else{
+                database.log("DB-JUSER-LOGIN-NOTFOUND","Cannot found user with ("+userEmail+")");
             }
             return null;
         }catch(Exception ex){
