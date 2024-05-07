@@ -5,6 +5,7 @@
  */
 package com.jakubwawak.done.frontend.components;
 
+import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.datamanager.TaskDataManager;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
@@ -81,6 +82,7 @@ public class InsertTaskComponent extends HorizontalLayout {
             int ans = tdm.insertTask(task_name);
             if ( ans == 1 ){
                 taskname_field.clear();
+                DoneApplication.ltc.reload(); // reloading UI component on task view
             }
         }
     }

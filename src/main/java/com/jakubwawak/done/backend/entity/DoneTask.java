@@ -76,4 +76,10 @@ public class DoneTask {
         document.append("task_comments",task_comments);
         return document;
     }
+
+    // getters
+    public String getName(){return task_name;}
+    public String getStatus(){return task_status;}
+    public String getTime(){return task_timestamp;}
+
 }

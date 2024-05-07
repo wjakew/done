@@ -19,10 +19,9 @@ public class TaskDataManager {
 
     /**
      * Constructor
-     * @param database
      */
     public TaskDataManager(){
-        this.databaseTask = new DatabaseTask(DoneApplication.database);
+        this.databaseTask = new DatabaseTask();
     }
 
     /**

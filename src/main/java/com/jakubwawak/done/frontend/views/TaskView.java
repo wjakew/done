@@ -8,6 +8,7 @@ package com.jakubwawak.done.frontend.views;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.InsertTaskComponent;
+import com.jakubwawak.done.frontend.components.ListTaskComponent;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -38,6 +39,7 @@ public class TaskView extends VerticalLayout {
     void prepareComponents(){
         header = new HeaderComponent();
         insertTaskComponent = new InsertTaskComponent();
+        DoneApplication.ltc = new ListTaskComponent();
     }
 
     /**
@@ -49,6 +51,7 @@ public class TaskView extends VerticalLayout {
             prepareComponents();
             add(header);
             add(insertTaskComponent);
+            add(DoneApplication.ltc);
         }
 
         // user is not logged

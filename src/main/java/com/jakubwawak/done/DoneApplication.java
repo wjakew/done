@@ -8,6 +8,7 @@ package com.jakubwawak.done;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 import com.jakubwawak.done.datamanager.DoneMenu;
+import com.jakubwawak.done.frontend.components.ListTaskComponent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -29,12 +30,13 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done060524REV1";
+	public static String build = "done070524REV1";
 	public static String version = "1.0.0";
 
 	public static Database database; // database connector
 
 	public static DoneUser loggedUser;
+	public static ListTaskComponent ltc;
 
 	public static DoneMenu menu;
 

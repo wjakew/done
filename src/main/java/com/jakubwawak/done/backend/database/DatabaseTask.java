@@ -29,10 +29,9 @@ public class DatabaseTask {
 
     /**
      * Constructor
-     * @param database
      */
-    public DatabaseTask(Database database){
-        this.database = database;
+    public DatabaseTask(){
+        this.database = DoneApplication.database;
     }
 
     /**
@@ -79,11 +78,17 @@ public class DatabaseTask {
             UpdateResult result = collection.updateOne(eq("_id", task.task_id), updateOperation);
 
             // If we reach this point, the operation was successful
-            return result.wasAcknowledged();
+            if (result.wasAcknowledged()){
+                database.log("DB-TASK-UPDATE","Updated task in database ("+task.task_id.toString()+")");
+                return true;
+            }
+            else{
+                database.log("DB-TASK-UPDATE-NULL","Tried to update but database responded with result null!");
+                return false;
+            }
         } catch (Exception e) {
             // Log the error
             database.log("DB-TASK-UPDATE-FAILED", "Failed to update task in database (" + e.toString() + ")");
-
             // The operation was not successful
             return false;
         }

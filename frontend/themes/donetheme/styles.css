@@ -37,10 +37,31 @@
     border-color: black;
 }
 .buttonprimary[focused]{
-/   background-color: red;
+   background-color: red;
 }
 .buttonsecondary{
 
+}
+H6{
+    font-family: donesecondary;
+    color: black;
+}
+H4{
+    font-family: donemain;
+    color: black;
+}
+.tasklayout{
+    background-color: white;
+    border: 1px;
+    border-style: solid;
+    margin: 10px;
+    border-radius: 5px;
+    margin-left: 10%;
+    margin-right: 10%;
+    cursor:crosshair;
+}
+.listtask{
+    overflow: hidden;
 }
 /*---------------------------------------------------components styles */
 .logincomponent{
