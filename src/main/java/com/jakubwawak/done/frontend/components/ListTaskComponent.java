@@ -8,6 +8,8 @@ package com.jakubwawak.done.frontend.components;
 import com.jakubwawak.done.backend.database.DatabaseTask;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.maintanance.GridElement;
+import com.jakubwawak.done.datamanager.TaskDataManager;
+import com.jakubwawak.done.frontend.windows.DoneTaskDetailsWindow;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,11 +21,8 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.virtuallist.VirtualList;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +38,14 @@ public class ListTaskComponent extends VirtualList {
 
     Button detailsButton, trashButton;
 
+    public int reloadMode;
+
     public ListTaskComponent(){
         super();
+        reloadMode = 0;
         addClassName("listtask");
         databaseTask = new DatabaseTask();
-        content = databaseTask.loadTasks();
+        content = databaseTask.loadAllTasks();
         setItems(content);
         setRenderer(donetaskRenderer);
     }
@@ -72,12 +74,24 @@ public class ListTaskComponent extends VirtualList {
             }
         });
         statusCombobox.setValue(new GridElement(task.getStatus()));
+        statusCombobox.setAllowCustomValue(false);
 
         statusCombobox.addValueChangeListener(e->{
             GridElement ge = (GridElement) e.getValue();
             task.task_status = ge.getGridelement_text();
-            databaseTask.updateTask(task);
+            TaskDataManager tdm = new TaskDataManager();
+            tdm.upgradeTask(task);
             reload();
+        });
+
+        trashButton.addClickListener(e->{
+            TaskDataManager tdm = new TaskDataManager();
+            tdm.deleteTask(task);
+        });
+
+        detailsButton.addClickListener(e->{
+            DoneTaskDetailsWindow dtdw = new DoneTaskDetailsWindow(task);
+            dtdw.main_dialog.open();
         });
 
         HorizontalLayout cardLayout = new HorizontalLayout();
@@ -124,17 +138,22 @@ public class ListTaskComponent extends VirtualList {
                 break;
             }
         }
-
         cardLayout.add(left_layout,right_layout);
         return cardLayout;
     });
 
     /**
      * Function for reloading data
+     * reloadMode:
+     * 0 - reloads all data
+     * 1 - only NEW
+     * 2 - only IN PROGRESS
+     * 3 - only DONE
+     * 4 - only CURRENT ( without DONE )
      */
     public void reload(){
         content.clear();
-        content.addAll(databaseTask.loadTasks());
+        content.addAll(databaseTask.loadSpecificTasks(reloadMode));
         getDataProvider().refreshAll();
     }
 }

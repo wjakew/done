@@ -7,6 +7,7 @@ package com.jakubwawak.done.frontend.components;
 
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.datamanager.TaskDataManager;
+import com.jakubwawak.done.frontend.windows.CreateATaskWindow;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -47,11 +48,12 @@ public class InsertTaskComponent extends HorizontalLayout {
         taskname_field.setPlaceholder("the greatest task ever");
         taskname_field.setPrefixComponent(VaadinIcon.TASKS.create());
         taskname_field.addClassName("textfield");
+        taskname_field.setMaxLength(250);
 
         insert_button = new Button("",VaadinIcon.INSERT.create(),this::setInsert_button);
         insert_button.addClassName("buttonprimary");
 
-        more_button = new Button("",VaadinIcon.QUESTION.create());
+        more_button = new Button("",VaadinIcon.QUESTION.create(),this::setMore_button);
         more_button.addClassName("buttonprimary");
 
         taskname_field.addKeyPressListener(e->{
@@ -71,6 +73,12 @@ public class InsertTaskComponent extends HorizontalLayout {
 
     private void setInsert_button(ClickEvent e){
         insertTask();
+    }
+
+    private void setMore_button(ClickEvent e){
+        CreateATaskWindow catw = new CreateATaskWindow();
+        catw.main_dialog.open();
+
     }
     /**
      * Function for inserting task used in UI

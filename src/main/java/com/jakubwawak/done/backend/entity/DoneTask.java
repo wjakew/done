@@ -6,6 +6,7 @@
 package com.jakubwawak.done.backend.entity;
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.maintanance.GridElement;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -64,6 +65,20 @@ public class DoneTask {
     }
 
     /**
+     * Constructor with quick init and date
+     * @param task_name
+     * @param date
+     */
+    public DoneTask(String task_name, LocalDateTime date){
+        task_id = null;
+        user_id = DoneApplication.loggedUser.user_id;
+        this.task_name = task_name;
+        task_status = "NEW";
+        task_timestamp = date.toString();
+        task_comments = new ArrayList<>();
+    }
+
+    /**
      * Function for preparing a document representation of the object
      * @return Document representing the task
      */
@@ -77,9 +92,40 @@ public class DoneTask {
         return document;
     }
 
+    /**
+     * Function for comparing this DoneTask object with another DoneTask object
+     * @param other The other DoneTask object to compare with
+     * @return String A string containing the names of the fields that have changed
+     */
+    public String compare(DoneTask other) {
+        StringBuilder changes = new StringBuilder();
+
+        if (!this.task_name.equals(other.task_name)) {
+            changes.append("task_name ");
+        }
+        if (!this.task_status.equals(other.task_status)) {
+            changes.append("task_status ");
+        }
+        if (!this.task_timestamp.equals(other.task_timestamp)) {
+            changes.append("task_timestamp ");
+        }
+        if (!this.task_comments.equals(other.task_comments)) {
+            changes.append("task_comments ");
+        }
+        return changes.toString().trim();
+    }
+
+
     // getters
     public String getName(){return task_name;}
     public String getStatus(){return task_status;}
     public String getTime(){return task_timestamp;}
+    public ArrayList<GridElement> getComments(){
+        ArrayList<GridElement> data = new ArrayList<>();
+        for(String comment : task_comments){
+            data.add(new GridElement(comment));
+        }
+        return data;
+    }
 
 }

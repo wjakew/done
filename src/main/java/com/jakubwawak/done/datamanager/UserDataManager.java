@@ -86,6 +86,38 @@ public class UserDataManager {
     }
 
     /**
+     * Function for changing password for the user
+     * @param currentPassword
+     * @param newPassword
+     * @return Integer
+     */
+    public int changePassword(String currentPassword,String newPassword){
+        try{
+            Password_Validator pv = new Password_Validator(currentPassword);
+            if (DoneApplication.loggedUser.user_password.equals(pv.hash())){
+                boolean ans = databaseUser.changePassword(newPassword);
+                if ( ans ){
+                    DoneApplication.database.log("CHANGE-PASSWORD","Password changed for user ("+DoneApplication.loggedUser.user_email+")");
+                    DoneApplication.notificationService("Password changed!",1);
+                    return 1;
+                }
+                else{
+                    DoneApplication.database.log("CHANGE-PASSWORD-FAILED","Failed to change password (database error)");
+                    return -2;
+                }
+            }
+            else{
+                DoneApplication.database.log("CHANGE-PASSWORD-FAILED","Failed to change password (wrong current password)");
+                DoneApplication.notificationService("Failed to change password, wrong current password",1);
+                return 0;
+            }
+        }catch(Exception ex){
+            DoneApplication.database.log("CHANGE-PASSWORD-FAILED","Failed to change password ("+ex.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
      * Function for logging out user
      * @return String
      */

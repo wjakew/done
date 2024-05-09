@@ -52,7 +52,7 @@ public class HeaderComponent extends HorizontalLayout {
 
         FlexLayout left_layout = new FlexLayout();
         left_layout.setSizeFull();
-        left_layout.setJustifyContentMode(JustifyContentMode.CENTER);
+        left_layout.setJustifyContentMode(JustifyContentMode.START);
         left_layout.setAlignItems(Alignment.CENTER);
         left_layout.setWidth("80%");
         left_layout.add(menuButton,menuComponent);

@@ -10,6 +10,9 @@ import com.jakubwawak.done.backend.maintanance.GridElement;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.InsertTaskComponent;
 import com.jakubwawak.done.frontend.components.ListTaskComponent;
+import com.jakubwawak.done.frontend.windows.ChangePasswordWindow;
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -25,19 +28,19 @@ import static com.jakubwawak.done.DoneApplication.UI_WIDTH;
 /**
  * Main application web view
  */
-@PageTitle("task to be done.")
-@Route("tasks")
-public class TaskView extends VerticalLayout {
+@PageTitle("settings to change.")
+@Route("settings")
+public class SettingsView extends VerticalLayout {
 
     HeaderComponent header;
-    InsertTaskComponent insertTaskComponent;
 
-    ComboBox<GridElement> filterCombobox;
+    Button changePasswordButton;
+
 
     /**
      * Constructor
      */
-    public TaskView(){
+    public SettingsView(){
         addClassName("taskview");
         prepareLayout();
     }
@@ -47,31 +50,10 @@ public class TaskView extends VerticalLayout {
      */
     void prepareComponents(){
         header = new HeaderComponent();
-        insertTaskComponent = new InsertTaskComponent();
-        DoneApplication.ltc = new ListTaskComponent();
 
-        filterCombobox = new ComboBox<>("Filters");
+        changePasswordButton = new Button("change password", VaadinIcon.KEY.create(),this::setChangePasswordButton);
+        changePasswordButton.addClassName("buttonbig");
 
-        ArrayList<GridElement> filters = new ArrayList<>();
-        filters.add(new GridElement("All Tasks"));
-        filters.add(new GridElement("Only New"));
-        filters.add(new GridElement("Only In Progress"));
-        filters.add(new GridElement("Only Done"));
-        filters.add(new GridElement("Only Current"));
-
-        filterCombobox.setItems(filters);
-        filterCombobox.setWidth(DoneApplication.UI_WIDTH);
-        filterCombobox.setPrefixComponent(VaadinIcon.TOOLS.create());
-        filterCombobox.setItemLabelGenerator(GridElement::getGridelement_text);
-        filterCombobox.addClassName("textfield");
-        filterCombobox.addValueChangeListener(e->{
-            GridElement selected = e.getValue();
-            int index = filters.indexOf(selected);
-            DoneApplication.ltc.reloadMode = index;
-            DoneApplication.ltc.reload();
-        });
-        filterCombobox.setValue(filters.get(0));
-        filterCombobox.setAllowCustomValue(false);
     }
 
     /**
@@ -82,20 +64,22 @@ public class TaskView extends VerticalLayout {
         if (DoneApplication.loggedUser != null){
             prepareComponents();
             add(header);
-            add(insertTaskComponent);
-            add(filterCombobox);
-            add(DoneApplication.ltc);
+            add(changePasswordButton);
         }
 
         // user is not logged
         else{
             add(new H1("no one is logged! forbidden access"));
         }
-
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+    }
+
+    private void setChangePasswordButton(ClickEvent ex){
+        ChangePasswordWindow cpw = new ChangePasswordWindow();
+        cpw.main_dialog.open();
     }
 
 }

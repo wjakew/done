@@ -8,7 +8,9 @@ package com.jakubwawak.done.backend.database;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.Password_Validator;
+import com.jakubwawak.done.backend.maintanance.RandomWordGeneratorEngine;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 
@@ -108,4 +110,88 @@ public class DatabaseUser {
             return null;
         }
     }
+
+        /**
+        * Function for changing the password of the currently logged in user
+        * @param newPassword The new password
+        * @return boolean Returns true if the password was successfully changed, false otherwise
+        */
+        public boolean changePassword(String newPassword) {
+        try {
+            // Check if a user is currently logged in
+            if (DoneApplication.loggedUser != null) {
+                // Create a Password_Validator object for the new password
+                Password_Validator pv = new Password_Validator(newPassword);
+
+                // Get the collection
+                MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+
+                // Create a new Document with the updated password
+                Document updatedDocument = new Document("user_password", pv.hash());
+
+                // Update the document in the collection
+                user_collection.updateOne(Filters.eq("user_email", DoneApplication.loggedUser.user_email), new Document("$set", updatedDocument));
+
+                // Update the password of the currently logged in user
+                DoneApplication.loggedUser.user_password = pv.hash();
+
+                // Log the successful password change
+                database.log("DB-JUSER-PASSWORD-CHANGE", "Password changed for user (" + DoneApplication.loggedUser.user_email + ")");
+
+                return true;
+            } else {
+                // Log the failed password change due to no user being logged in
+                database.log("DB-JUSER-PASSWORD-CHANGE-FAILED", "No user is currently logged in");
+                return false;
+            }
+        } catch (Exception e) {
+            // Log the error
+            database.log("DB-JUSER-PASSWORD-CHANGE-FAILED", "Failed to change password (" + e.toString() + ")");
+            return false;
+        }
+        }
+
+        /**
+         * Function for changing the password of a user with a given email
+         * @param userEmail The email of the user
+         * @return boolean Returns true if the password was successfully changed, false otherwise
+         */
+        public boolean adminChangePassword(String userEmail) {
+            try {
+                RandomWordGeneratorEngine rwge = new RandomWordGeneratorEngine();
+                String newPassword = rwge.generateRandomString(20,true,true);
+                // Get the user with the given email
+                DoneUser user = getUserByEmail(userEmail);
+
+                // Check if a user with the given email exists
+                if (user != null) {
+                    // Create a Password_Validator object for the new password
+                    Password_Validator pv = new Password_Validator(newPassword);
+
+                    // Get the collection
+                    MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+
+                    // Create a new Document with the updated password
+                    Document updatedDocument = new Document("user_password", pv.hash());
+
+                    // Update the document in the collection
+                    user_collection.updateOne(Filters.eq("user_email", userEmail), new Document("$set", updatedDocument));
+
+                    // Log the successful password change
+                    database.log("DB-JUSER-PASSWORD-CHANGE", "Password changed for user (" + userEmail + ")");
+
+                    return true;
+                } else {
+                    // Log the failed password change due to no user being found with the given email
+                    database.log("DB-JUSER-PASSWORD-CHANGE-FAILED", "No user found with the email (" + userEmail + ")");
+                    return false;
+                }
+            } catch (Exception e) {
+                // Log the error
+                database.log("DB-JUSER-PASSWORD-CHANGE-FAILED", "Failed to change password (" + e.toString() + ")");
+                return false;
+            }
+        }
+
+
 }
