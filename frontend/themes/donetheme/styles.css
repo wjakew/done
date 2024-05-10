@@ -7,6 +7,14 @@
   font-family: donesecondary;
   src: url("/Eirian.ttf");
 }
+vaadin-combo-box-item{
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    font-family:donesecondary;
+    color: black;
+    pointer-events: none;
+}
 .notification::part(overlay){
     background-color: black;
     color: white;

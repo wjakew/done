@@ -12,6 +12,7 @@ import com.jakubwawak.done.frontend.components.ListTaskComponent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
@@ -27,10 +28,14 @@ import java.util.regex.Pattern;
  */
 @SpringBootApplication
 @EnableVaadin({"com.jakubwawak"})
+@PWA(
+		name = "done",
+		shortName = "done"
+)
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done090524REV1";
+	public static String build = "done100524REV1";
 	public static String version = "1.0.0";
 
 	public static Database database; // database connector

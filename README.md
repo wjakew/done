@@ -1,7 +1,8 @@
+![Done Icon](./readme_resources/done_icon.png)
 # done
 The best web application for getting shit done. No bullshit functions no bullshit layout.<br>
 Straight to the point - just make shit done.
-
+![img.png](./readme_resources/img.png)
 ## Technologies Used
 
 This project is built with a variety of technologies:
@@ -19,6 +20,25 @@ This project is built with a variety of technologies:
 - **MongoDB**: The database used to store the tasks.
 
 - **Vaadin**: A platform for building single-page web applications in Java.
+
+## User Interface
+![img_1.png](./readme_resources/img_1.png)
+
+The DoneApplication user interface is designed to be simple and straightforward to help you get things done without any distractions.
+
+### Main Page
+
+When you open the application, you'll see the main page. This page displays a list of your tasks. Each task has a title and a checkbox that you can use to mark the task as done.
+
+### Adding a Task
+![img_2.png](./readme_resources/img_2.png)<br>
+To add a new task, click on the "Add Task" button located at the top of the main page. This will open a form where you can enter the title of your new task. After entering the title, click on the "Save" button to add the task to your list.
+
+### Deleting a Task
+
+To delete a task, click on the "Delete" button next to the task in the list. This will remove the task from your list.
+
+Remember, the goal of DoneApplication is to help you get things done. So, keep your task list up-to-date and try to complete your tasks as soon as possible.
 
 # DoneApplication
 

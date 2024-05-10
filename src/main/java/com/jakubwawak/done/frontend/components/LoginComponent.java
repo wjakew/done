@@ -9,6 +9,7 @@ package com.jakubwawak.done.frontend.components;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.datamanager.UserDataManager;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
@@ -74,6 +75,12 @@ public class LoginComponent extends VerticalLayout {
         add(login_field);
         add(password_field);
         add(login_button);
+
+        password_field.addKeyPressListener(e->{
+            if ( e.getKey().equals(Key.ENTER)){
+                login();
+            }
+        });
     }
 
     /**
@@ -81,6 +88,13 @@ public class LoginComponent extends VerticalLayout {
      * @param ex
      */
     private void setLogin_button(ClickEvent ex){
+        login();
+    }
+
+    /**
+     * Function for login logic
+     */
+    void login(){
         String login = login_field.getValue();
         String password = password_field.getValue();
         if ( !login.isBlank() && !password.isBlank() ){

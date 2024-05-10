@@ -15,6 +15,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -65,6 +66,7 @@ public class SettingsView extends VerticalLayout {
             prepareComponents();
             add(header);
             add(changePasswordButton);
+            add(new H4("by Jakub Wawak all rights reserved"));
         }
 
         // user is not logged

@@ -36,7 +36,7 @@ public class MenuComponent extends SideNav {
     void createItems(){
         taskItem = new SideNavItem("My Tasks", TaskView.class, VaadinIcon.TASKS.create());
         taskItem.addClassName("buttonprimary");
-        settingsItem = new SideNavItem("Settings", SettingsView.class, VaadinIcon.TASKS.create());
+        settingsItem = new SideNavItem("Settings", SettingsView.class, VaadinIcon.BOOKMARK.create());
         settingsItem.addClassName("buttonprimary");
         logoutItem =new SideNavItem("Log out!", LoginView.class,VaadinIcon.EXIT.create());
         logoutItem.addClassName("buttonprimary");
