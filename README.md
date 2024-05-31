@@ -26,6 +26,20 @@ This project is built with a variety of technologies:
 
 The DoneApplication user interface is designed to be simple and straightforward to help you get things done without any distractions.
 
+## DoneMenu Commands
+
+The DoneMenu class handles user input and executes the corresponding commands. Here's a brief description of the commands and their usage:
+
+- `exit`: This command is used to exit the application. It does not require any additional arguments. Usage: `exit`.
+
+- `register`: This command is used to register a new user. It requires three additional arguments: email, password, and telephone. The email should be a valid email address, and the password should be more than 8 characters long. Usage: `register <email> <password> <telephone>`.
+
+- `createkey`: This command is used to create a new API key for a user. It requires one additional argument: the user's email. Usage: `createkey <user_email>`.
+
+- `removekey`: This command is used to remove an API key for a user. It requires one additional argument: the user's email. Usage: `removekey <user_email>`.
+
+- `terminal`: This command is used to display a terminal prompt. It does not require any additional arguments. Usage: `terminal`.
+
 ### Main Page
 
 When you open the application, you'll see the main page. This page displays a list of your tasks. Each task has a title and a checkbox that you can use to mark the task as done.

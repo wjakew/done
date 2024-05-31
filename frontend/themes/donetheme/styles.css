@@ -77,6 +77,10 @@ vaadin-combo-box-item{
 .buttonsecondary{
 
 }
+H3{
+    font-family: donesecondary;
+    color: black;
+}
 H6{
     font-family: donesecondary;
     color: black;
@@ -154,6 +158,14 @@ H4{
 .done-task-details-window::part(backdrop){
      background-color: transparent;
  }
+.done-task-details-window H6{
+    font-family: donesecondary;
+    color:white;
+}
+.done-task-details-window H3{
+    font-family: donesecondary;
+    color:white;
+}
 /*---------------------------------------------------views aka pages styles*/
 .loginview{
     background-color: white;

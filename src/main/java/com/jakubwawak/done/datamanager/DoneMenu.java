@@ -7,6 +7,7 @@ package com.jakubwawak.done.datamanager;
 
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.database.DatabaseAPI;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 
 import java.util.ArrayList;
@@ -65,6 +66,28 @@ public class DoneMenu {
                         else{
                             DoneApplication.consoleWriteService("Provided email is not correct, please check :3");
                         }
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "createkey":{
+                    if ( words.length == 2 ){
+                        String user_email = words[1];
+                        DatabaseAPI dapi = new DatabaseAPI();
+                        dapi.createApiKey(user_email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "removekey":{
+                    if ( words.length == 2 ){
+                        String api_key = words[1];
+                        DatabaseAPI dapi = new DatabaseAPI();
+                        dapi.removeApiKey(api_key);
                     }
                     else{
                         DoneApplication.consoleWriteService("Wrong command usage, check help :3");
