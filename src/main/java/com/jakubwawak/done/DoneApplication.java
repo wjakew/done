@@ -43,6 +43,8 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 	public static DoneUser loggedUser;
 	public static ListTaskComponent ltc;
 
+	public static String runTime;
+
 	public static DoneMenu menu;
 
 	public static String UI_WIDTH = "80%";
@@ -55,6 +57,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 	 */
 	public static void main(String[] args) {
 		showHeader();
+		runTime = LocalDateTime.now().toString();
 		database = new Database();
 		menu = new DoneMenu();
 		if ( args.length > 0  ){
