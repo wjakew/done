@@ -10,6 +10,7 @@ import com.jakubwawak.done.backend.entity.DoneTimeBox;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,23 @@ public class DatabaseTimeBox {
             }
         }catch(Exception e){
             database.log("DB-TIMEBOX-INSERT-FAILED","Failed to insert time box to database ("+e.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
+     * Function for removing time box from database
+     * @param timebox_id
+     * @return Integer
+     */
+    public int removeTimeBox(ObjectId timebox_id){
+        try{
+            MongoCollection<Document> timebox_collection = database.get_data_collection("done_timebox");
+            Document query = new Document("timebox_id",timebox_id);
+            timebox_collection.deleteOne(query);
+            return 1;
+        }catch(Exception e){
+            database.log("DB-TIMEBOX-REMOVE-FAILED","Failed to remove time box from database ("+e.toString()+")");
             return -1;
         }
     }

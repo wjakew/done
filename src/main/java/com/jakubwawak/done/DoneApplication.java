@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done300524REV1";
+	public static String build = "done020624REV1";
 	public static String version = "1.1.0";
 
 	public static Database database; // database connector
