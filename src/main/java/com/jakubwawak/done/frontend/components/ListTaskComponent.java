@@ -78,6 +78,7 @@ public class ListTaskComponent extends VirtualList {
 
         statusCombobox.addValueChangeListener(e->{
             GridElement ge = (GridElement) e.getValue();
+            System.out.println(ge.getGridelement_text());
             task.task_status = ge.getGridelement_text();
             TaskDataManager tdm = new TaskDataManager();
             tdm.upgradeTask(task);
