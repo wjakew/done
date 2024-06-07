@@ -76,6 +76,33 @@ public class DatabaseAPI {
     }
 
     /**
+     * Function for validating api key pair and returning user_id
+     * @param apiKey
+     * @param apiCode
+     * @return Integer
+     */
+    public ObjectId validateAPIKeyPair(String apiKey, String apiCode){
+        try{
+            MongoCollection<Document> apiKey_collection = database.get_data_collection("done_api");
+            Document query = new Document("api_key",apiKey);
+            Document result = apiKey_collection.find(query).first();
+            if ( result != null ){
+                if ( result.getString("api_code").equals(apiCode)){
+                    database.log("DB-API-VALIDATE","API KEY VALIDATION");
+                    return result.getObjectId("user_id");
+                }
+                database.log("DB-API-VALIDATE-FAILED","API Codes PAIR not matching database records! ("+apiKey+"/"+apiCode+")");
+                return null;
+            }
+            database.log("DB-API-GET-NOAPI","Cannot find api key for pair ("+apiKey+"/"+apiCode+")");
+            return null;
+        }catch(Exception ex){
+            database.log("DB-API-GET-FAILED","Failed to get api key for pair ("+apiKey+"/"+apiCode+") ("+ex.toString()+")");
+            return null;
+        }
+    }
+
+    /**
      * Function for creating api key for given user
      * @param user_email
      * @return Integer
@@ -87,7 +114,9 @@ public class DatabaseAPI {
             ApiKey apiKey = new ApiKey(user);
             RandomWordGeneratorEngine rwge = new RandomWordGeneratorEngine();
             apiKey.api_key = rwge.generateRandomString(30,true,false);
+            apiKey.api_key = apiKey.api_key.toUpperCase();
             apiKey.api_code = rwge.generateRandomString(45,true,false);
+            apiKey.api_code = apiKey.api_code.toUpperCase();
             apiKey.api_description = "User API key ("+user.user_email+")";
             apiKey.user_id = user.user_id;
             apiKey.api_created = LocalDateTime.now().toString();

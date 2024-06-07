@@ -3,7 +3,7 @@
  * kubawawak@gmail.com
  * all right reserved
  */
-package com.jakubwawak.done.backend.api;
+package com.jakubwawak.done.backend.api.health_endpoint;
 
 import com.jakubwawak.done.DoneApplication;
 

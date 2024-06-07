@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done040624REV1";
+	public static String build = "done070624REV1";
 	public static String version = "1.1.0";
 
 	public static Database database; // database connector
@@ -50,6 +50,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 	public static String UI_WIDTH = "80%";
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
 			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+	public static final String SERVER_NAME = "DONE-TEST";
 
 	/**
 	 * Main function

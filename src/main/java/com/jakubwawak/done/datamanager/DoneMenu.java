@@ -109,7 +109,7 @@ public class DoneMenu {
     public void run(){
         Scanner scanner = new Scanner(System.in);
         while(runFlag){
-            System.out.print(ConsoleColors.GREEN_BOLD_BRIGHT+"journal :3> "+ConsoleColors.RESET);
+            System.out.print(ConsoleColors.GREEN_BOLD_BRIGHT+"done :3> "+ConsoleColors.RESET);
             String userInput = scanner.nextLine();
             if ( userInput.isBlank() ){
                 DoneApplication.consoleWriteService(ConsoleColors.PURPLE_BOLD_BRIGHT+"User input is empty, pleeease read help :3"+ConsoleColors.RESET);

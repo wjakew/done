@@ -13,6 +13,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  * Object for creating / maintaining user data on database
@@ -35,7 +36,7 @@ public class DatabaseUser {
      */
     public int createUser(DoneUser userToAdd){
         try{
-            MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
             if ( userToAdd != null ){
                 InsertOneResult result = user_collection.insertOne(userToAdd.prepareDocument());
                 if ( result.wasAcknowledged() ){
@@ -65,7 +66,7 @@ public class DatabaseUser {
     public DoneUser loginUser(String userEmail, String userPassword){
         try{
             Password_Validator pv = new Password_Validator(userPassword);
-            MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
             Document user_document = user_collection.find(new Document("user_email",userEmail)).first();
             if ( user_document != null ){
                 DoneUser user = new DoneUser(user_document);
@@ -94,7 +95,7 @@ public class DatabaseUser {
      */
     public DoneUser getUserByEmail(String userEmail){
         try{
-            MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
             Document user_document = user_collection.find(new Document("user_email",userEmail)).first();
             if ( user_document != null ){
                 DoneUser user = new DoneUser(user_document);
@@ -103,6 +104,30 @@ public class DatabaseUser {
             }
             else{
                 database.log("DB-JUSER-GET-NOTFOUND","Cannot found user with ("+userEmail+")");
+                return null;
+            }
+        }catch(Exception ex){
+            database.log("DB-JUSER-GET-FAILED","Failed to get user on database ("+ex.toString()+")");
+            return null;
+        }
+    }
+
+    /**
+     * Function for getting user by given id
+     * @param user_id
+     * @return DoneUser
+     */
+    public DoneUser getUserByID(ObjectId user_id){
+        try{
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
+            Document user_document = user_collection.find(new Document("_id",user_id)).first();
+            if ( user_document != null ){
+                DoneUser user = new DoneUser(user_document);
+                database.log("DB-JUSER-GET","Found user ("+user.user_email+"/"+user.user_id.toString()+")");
+                return user;
+            }
+            else{
+                database.log("DB-JUSER-GET-NOTFOUND","Cannot found user with ("+user_id.toString()+")");
                 return null;
             }
         }catch(Exception ex){
@@ -124,7 +149,7 @@ public class DatabaseUser {
                 Password_Validator pv = new Password_Validator(newPassword);
 
                 // Get the collection
-                MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+                MongoCollection<Document> user_collection = database.get_data_collection("done_user");
 
                 // Create a new Document with the updated password
                 Document updatedDocument = new Document("user_password", pv.hash());
@@ -169,7 +194,7 @@ public class DatabaseUser {
                     Password_Validator pv = new Password_Validator(newPassword);
 
                     // Get the collection
-                    MongoCollection<Document> user_collection = database.get_data_collection("journal_user");
+                    MongoCollection<Document> user_collection = database.get_data_collection("done_user");
 
                     // Create a new Document with the updated password
                     Document updatedDocument = new Document("user_password", pv.hash());

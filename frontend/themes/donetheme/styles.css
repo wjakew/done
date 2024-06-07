@@ -61,6 +61,11 @@ vaadin-combo-box-item{
 .buttonprimary[focused]{
    background-color: red;
 }
+Text{
+    font-family: donesecondary;
+    color: black;
+    font-size: 2rem;
+}
 .buttonprimary-white{
     --lumo-primary-color:white;
     background-color: transparent;

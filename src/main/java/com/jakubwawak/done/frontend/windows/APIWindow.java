@@ -9,6 +9,7 @@ import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.database.DatabaseAPI;
 import com.jakubwawak.done.backend.entity.ApiKey;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
@@ -32,7 +33,7 @@ public class APIWindow {
     VerticalLayout main_layout;
 
     H3 windowHeader;
-    H6 apiKey, apiCode;
+    Text apiKey, apiCode;
     Button generateButton, revokeButton;
 
     /**
@@ -53,14 +54,14 @@ public class APIWindow {
         DatabaseAPI databaseAPI = new DatabaseAPI();
         ApiKey api_key = databaseAPI.getUserApiKey(DoneApplication.loggedUser.user_id);
         generateButton = new Button("Generate new API key", VaadinIcon.KEY.create(),this::setGenerateButton);
-        generateButton.addClassName("buttonprimary");
+        generateButton.addClassName("buttonprimary-white");
         revokeButton = new Button("Revoke API key", VaadinIcon.TRASH.create(),this::setRevokeButton);
-        revokeButton.addClassName("buttonprimary");
+        revokeButton.addClassName("buttonprimary-white");
         revokeButton.getStyle().set("color","red");
         if ( api_key != null ){
             windowHeader = new H3("API Enabled");
-            apiKey = new H6("API Key: "+api_key.api_key);
-            apiCode = new H6("API Code: "+api_key.api_code);
+            apiKey = new Text("API Key: "+api_key.api_key+"<br>");
+            apiCode = new Text("API Code: "+api_key.api_code+"<br>");
         }
         else{
             windowHeader = new H3("API Disabled");
