@@ -46,4 +46,20 @@ public class TokenManager {
         return null;
     }
 
+    /**
+     * Function for validating token
+     * @param token
+     * @return String
+     */
+    public ApiToken validateToken(String token){
+        DatabaseToken databaseToken = new DatabaseToken();
+        ApiToken apiToken = databaseToken.getToken(token);
+        if ( apiToken != null ){
+            DoneApplication.database.log("TOKEN-MANAGER-VALIDATE","Token validated for user ("+apiToken.getTokenOwner().toString()+")");
+            return apiToken;
+        }
+        DoneApplication.database.log("TOKEN-MANAGER-VALIDATE","Token validation failed for token ("+token+")");
+        return null;
+    }
+
 }

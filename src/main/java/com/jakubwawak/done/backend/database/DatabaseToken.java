@@ -88,5 +88,19 @@ public class DatabaseToken {
         }
     }
 
+    /**
+     * Getting token by token code
+     * @param token
+     * @return ApiToken
+     */
+    public ApiToken getToken(String token){
+        MongoCollection<Document> collection = database.get_data_collection("done_token");
+        Document token_document = (Document) collection.find(Filters.eq("token_code", token)).first();
+        if ( token_document != null ){
+            return new ApiToken(token_document);
+        }
+        return null;
+    }
+
 }
 

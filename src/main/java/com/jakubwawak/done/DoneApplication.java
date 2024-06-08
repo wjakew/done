@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done070624REV1";
+	public static String build = "done080624REV1";
 	public static String version = "1.1.0";
 
 	public static Database database; // database connector
@@ -122,7 +122,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 	 * @param message
 	 */
 	public static void consoleWriteService(String message){
-		System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT+ LocalDateTime.now()+" - JOURNAL INFO - "+message+ ConsoleColors.RESET);
+		System.out.println(ConsoleColors.PURPLE_BOLD_BRIGHT+ LocalDateTime.now()+" - DONE APP INFO - "+message+ ConsoleColors.RESET);
 	}
 
 }

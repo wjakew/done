@@ -38,4 +38,34 @@ public class TokenEndpoint {
         }
         return response;
     }
+
+    @GetMapping("/api/token/validate/{token}")
+    public Response validateToken(@PathVariable String token){
+        TokenManager tokenManager = new TokenManager();
+        ApiToken userToken = tokenManager.validateToken(token);
+        Response response = new Response("/api/token/validate/{token}");
+        if ( userToken != null ){
+            if ( userToken.token_active == 1 ){
+                response.token = userToken;
+                response.response_code = "token_valid";
+                response.response_description = "Token is valid";
+                DatabaseUser databaseUser = new DatabaseUser();
+                response.user_email = databaseUser.getUserByID(userToken.getTokenOwner()).user_email;
+            }
+            else{
+                response.token = null;
+                response.response_code = "token_notactive";
+                response.response_description = "token is not active";
+                response.user_email = "none";
+
+            }
+        }
+        else{
+            response.token = null;
+            response.response_code = "token_invalid";
+            response.response_description = "Token is invalid";
+            response.user_email = "none";
+        }
+        return response;
+    }
 }
