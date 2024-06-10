@@ -7,11 +7,11 @@ package com.jakubwawak.done.frontend.views;
 
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
+import com.jakubwawak.done.frontend.components.TimeBoxComponent;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.Lumo;
 
 /**
  * Main application web view
@@ -21,6 +21,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 public class TimeBoxView extends VerticalLayout {
 
     HeaderComponent header;
+    TimeBoxComponent listComponent;
 
     /**
      * Constructor
@@ -35,6 +36,7 @@ public class TimeBoxView extends VerticalLayout {
      */
     void prepareComponents(){
         header = new HeaderComponent();
+        listComponent = new TimeBoxComponent();
     }
 
     /**
@@ -46,6 +48,7 @@ public class TimeBoxView extends VerticalLayout {
         if (DoneApplication.loggedUser != null){
             prepareComponents();
             add(header);
+            add(listComponent);
         }
 
         // user is not logged

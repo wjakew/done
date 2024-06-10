@@ -8,11 +8,16 @@ package com.jakubwawak.done.backend.database;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.entity.DoneTimeBox;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  * Object for managing time boxes objects in database
@@ -52,6 +57,34 @@ public class DatabaseTimeBox {
     }
 
     /**
+     * Function for updating time box object on database
+     * @param timeBox
+     * @return Integer
+     */
+    public int updateTimeBox(DoneTimeBox timeBox){
+        try{
+            MongoCollection<Document> collection = database.get_data_collection("done_timebox");
+            Document doc = timeBox.prepareDocument();
+            Bson updateOperation = new Document("$set",doc);
+            UpdateResult result = collection.updateOne(eq("_id",timeBox.timebox_id),updateOperation);
+
+            if ( result.wasAcknowledged() ){
+                database.log("DB-TIMEBOX-UPDATE","Updated timebox in database ("+timeBox.timebox_id.toString()+")");
+                return 1;
+            }
+            else{
+                database.log("DB-TIMEBOX-UPDATE-NULL","Tried to update but database responded with result null!");
+                return 0;
+            }
+        }catch(Exception ex){
+            // Log the error
+            database.log("DB-TIMEBOX-UPDATE-FAILED", "Failed to update time box in database (" + ex.toString() + ")");
+            // The operation was not successful
+            return -1;
+        }
+    }
+
+    /**
      * Function for removing time box from database
      * @param timebox_id
      * @return Integer
@@ -69,6 +102,30 @@ public class DatabaseTimeBox {
     }
 
     /**
+     * Function for removing task from all timebox objects
+     * @param task_id
+     * @return Integer
+     */
+    public int removeTaskFromAllTimeBoxes(ObjectId task_id){
+        try{
+            MongoCollection<Document> timebox_collection = database.get_data_collection("done_timebox");
+            Bson filter = Filters.exists("currentTaskObjectId"); // filter documents that have a 'tasks' field
+            Bson update = new Document("$pull", new Document("currentTaskObjectId", task_id)); // pull task_id from 'tasks' array
+            UpdateResult result = timebox_collection.updateMany(filter, update);
+            if (result.wasAcknowledged()) {
+                database.log("DB-TIMEBOX-REMOVE-TASK", "Removed task from all time boxes ("+task_id.toString()+"), amount "+result.getModifiedCount());
+                return 1;
+            } else {
+                database.log("DB-TIMEBOX-REMOVE-TASK-NULL", "Tried to remove task but database responded with result null!");
+                return 0;
+            }
+        } catch(Exception ex){
+            database.log("DB-TIMEBOX-REMOVE-TASK-FAILED", "Failed to remove task from all time boxes (" + ex.toString() + ")");
+            return -1;
+        }
+    }
+
+    /**
      * Function for getting logged user time box collection
      * @return ArrayList
      */
@@ -81,6 +138,7 @@ public class DatabaseTimeBox {
                     timeboxes.add(new DoneTimeBox(doc));
                 }
             }
+            database.log("DB-TIMEBOX-GET","Time boxes fetched ("+timeboxes.size()+")");
             return timeboxes;
         }catch(Exception e){
             database.log("DB-TIMEBOX-GET-FAILED","Failed to get time boxes from database ("+e.toString()+")");

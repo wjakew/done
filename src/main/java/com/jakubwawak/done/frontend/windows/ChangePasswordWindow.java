@@ -38,6 +38,7 @@ public class ChangePasswordWindow {
     public ChangePasswordWindow() {
         main_dialog = new Dialog();
         main_layout = new VerticalLayout();
+        main_dialog.addClassName("done-task-details-window-white");
         prepare_dialog();
     }
 

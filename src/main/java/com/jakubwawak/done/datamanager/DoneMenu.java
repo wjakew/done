@@ -99,6 +99,17 @@ public class DoneMenu {
                     System.out.print(ConsoleColors.GREEN_BOLD_BRIGHT+"you're so done> "+ ConsoleColors.RESET);
                     break;
                 }
+                case "debug":
+                {
+                    if ( DoneApplication.debugLogPrintFlag == 1){
+                        DoneApplication.consoleWriteService(ConsoleColors.PURPLE_BOLD_BRIGHT+"Debug printing stopped!"+ConsoleColors.RESET);
+                        DoneApplication.debugLogPrintFlag = 0;
+                    }
+                    else{
+                        DoneApplication.consoleWriteService(ConsoleColors.PURPLE_BOLD_BRIGHT+"Debug printing started!"+ConsoleColors.RESET);
+                        DoneApplication.debugLogPrintFlag = 1;
+                    }
+                }
             }
         }
     }

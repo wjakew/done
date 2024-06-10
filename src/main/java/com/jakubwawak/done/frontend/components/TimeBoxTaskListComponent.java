@@ -7,6 +7,7 @@ package com.jakubwawak.done.frontend.components;
 
 import com.jakubwawak.done.backend.database.DatabaseTask;
 import com.jakubwawak.done.backend.entity.DoneTask;
+import com.jakubwawak.done.backend.entity.DoneTimeBox;
 import com.jakubwawak.done.backend.maintanance.GridElement;
 import com.jakubwawak.done.datamanager.TaskDataManager;
 import com.jakubwawak.done.frontend.windows.DoneTaskDetailsWindow;
@@ -18,37 +19,40 @@ import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.virtuallist.VirtualList;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * UI object for creating task list
+ * Object for creating custom timebox list
  */
-public class ListTaskComponent extends VirtualList {
+public class TimeBoxTaskListComponent extends VirtualList {
 
-    public List<DoneTask> content;
-    DatabaseTask databaseTask;
-
-    public DoneTask selected;
+    ArrayList<DoneTask> content;
 
     ComboBox statusCombobox;
 
     Button detailsButton, trashButton;
 
-    public int reloadMode;
+    DatabaseTask databaseTask;
 
-    public ListTaskComponent(){
-        super();
-        reloadMode = 0;
-        addClassName("listtask");
+    DoneTimeBox timeBoxObject;
+
+    DoneTask selected;
+
+    /**
+     * Constructor
+     */
+    public TimeBoxTaskListComponent(DoneTimeBox timeBoxObject,DoneTask selected){
+        this.content = timeBoxObject.currentTask;
+        this.selected = selected;
+        this.timeBoxObject = timeBoxObject;
+        addClassName("listtask-border");
         databaseTask = new DatabaseTask();
-        content = databaseTask.loadAllTasks();
-        selected = null;
+        this.content = content;
         setItems(content);
         setRenderer(donetaskRenderer);
     }
@@ -147,21 +151,35 @@ public class ListTaskComponent extends VirtualList {
         cardLayout.addClickListener(e->{
             selected = task;
         });
+
         return cardLayout;
     });
 
     /**
-     * Function for reloading data
-     * reloadMode:
-     * 0 - reloads all data
-     * 1 - only NEW
-     * 2 - only IN PROGRESS
-     * 3 - only DONE
-     * 4 - only CURRENT ( without DONE )
+     * Function for adding new task to UI
+     * @param doneTask
+     */
+    public void addNewTask(DoneTask doneTask){
+        content.add(doneTask);
+        getDataProvider().refreshAll();
+    }
+
+    /**
+     * Function for removing new task
+     * @param doneTask
+     */
+    public void removeTask(DoneTask doneTask){
+        content.remove(doneTask);
+        getDataProvider().refreshAll();
+    }
+
+    /**
+     * Function for reloading tasks from object
      */
     public void reload(){
         content.clear();
-        content.addAll(databaseTask.loadSpecificTasks(reloadMode));
+        timeBoxObject.loadTasks();
+        content.addAll(timeBoxObject.currentTask);
         getDataProvider().refreshAll();
     }
 }

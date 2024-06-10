@@ -28,11 +28,13 @@ public class InsertTaskComponent extends HorizontalLayout {
 
     Button more_button;
 
+    ListTaskComponent destinationObject;
     /**
      * Constructor
      */
-    public InsertTaskComponent(){
+    public InsertTaskComponent(ListTaskComponent destinationObject){
         setAlignItems(Alignment.CENTER);
+        this.destinationObject = destinationObject;
         setVerticalComponentAlignment(Alignment.CENTER);
         setWidth(UI_WIDTH);
 
@@ -90,7 +92,10 @@ public class InsertTaskComponent extends HorizontalLayout {
             int ans = tdm.insertTask(task_name);
             if ( ans == 1 ){
                 taskname_field.clear();
-                DoneApplication.ltc.reload(); // reloading UI component on task view
+                DoneApplication.ltc.reload();   // reloading UI component on task view
+                if ( destinationObject != null ){
+                    destinationObject.reload(); // reloading UI component on passed list view
+                }
             }
         }
     }

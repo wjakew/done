@@ -205,6 +205,8 @@ public class DatabaseTask {
      */
     public int deleteTask(DoneTask toDelete){
         try{
+            DatabaseTimeBox dtb = new DatabaseTimeBox();
+            dtb.removeTaskFromAllTimeBoxes(toDelete.task_id);
             MongoCollection<Document> task_collection = database.get_data_collection("done_task");
             if ( toDelete != null ){
                 task_collection.deleteOne(eq("_id",toDelete.task_id));

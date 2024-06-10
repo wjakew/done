@@ -5,6 +5,7 @@
  */
 package com.jakubwawak.done.backend.database;
 
+import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 import com.mongodb.*;
 import com.mongodb.client.MongoClient;
@@ -95,7 +96,8 @@ public class Database {
             }catch(Exception ex){}
         }
         else{
-            System.out.println(ConsoleColors.GREEN_BRIGHT+log_category+"["+ LocalDateTime.now(ZoneId.of("Europe/Warsaw")).toString()+") - "+log_text+"]"+ConsoleColors.RESET);
+            if (DoneApplication.debugLogPrintFlag == 1)
+                System.out.println(ConsoleColors.GREEN_BRIGHT+log_category+ConsoleColors.RED_BOLD_BRIGHT+"["+ LocalDateTime.now(ZoneId.of("Europe/Warsaw")).toString()+"] - "+ConsoleColors.GREEN_BOLD_BRIGHT+log_text+"]"+ConsoleColors.RESET);
         }
         // TODO inserting log to database
     }

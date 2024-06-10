@@ -109,6 +109,10 @@ H4{
 .listtask{
     overflow: hidden;
 }
+.listtask-border{
+    overflow: hidden;
+    border: solid 1px black;
+}
  .aim-grid{
      background-color: black;
      border-style: solid;
@@ -137,6 +141,11 @@ H4{
 .logincomponent{
 
 }
+.time-box-details{
+    font-family: donesecondary;
+    color: black;
+    border: solid 1px black;
+}
 .logincomponent H1{
     font-family: donemain;
     font-size: 7rem;
@@ -163,6 +172,16 @@ H4{
     border-style: solid;
 }
 .done-task-details-window::part(backdrop){
+     background-color: transparent;
+ }
+ .done-task-details-window-white::part(overlay){
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+}
+.done-task-details-window-white::part(backdrop){
      background-color: transparent;
  }
 .done-task-details-window H6{
