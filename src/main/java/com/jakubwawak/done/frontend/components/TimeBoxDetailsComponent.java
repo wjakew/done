@@ -6,17 +6,21 @@
 package com.jakubwawak.done.frontend.components;
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.database.DatabaseTimeBox;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.entity.DoneTimeBox;
 import com.jakubwawak.done.frontend.windows.SelectTaskWindow;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+
+import java.time.LocalDateTime;
 
 /**
  * UI object for creating viewer for timebox object
@@ -32,7 +36,8 @@ public class TimeBoxDetailsComponent extends VerticalLayout {
     DoneTask selected;
 
     HorizontalLayout buttonLayout;
-    Button addTask, removeTask, detailsTask;
+    Button addTask, removeTask;
+    DateTimePicker dateTimePicker;
 
     /**
      * Constructor
@@ -57,20 +62,41 @@ public class TimeBoxDetailsComponent extends VerticalLayout {
     void prepareContent(){
         notesArea = new TextArea("Notes");
         notesArea.setValue(timeBoxObject.timebox_description);
-        notesArea.setClassName("textfield-white");
+        notesArea.setClassName("textfield");
+        notesArea.setSizeFull();
 
-        tbtlc = new TimeBoxTaskListComponent(timeBoxObject,selected);
+        dateTimePicker = new DateTimePicker("TimeBox Date");
+        dateTimePicker.addClassName("textfield");
+        dateTimePicker.setWidthFull();
+        if ( timeBoxObject.timebox_dateSelected.equals("none") ){
+            dateTimePicker.setValue(LocalDateTime.now());
+        }
+        else{
+            dateTimePicker.setValue(LocalDateTime.parse(timeBoxObject.timebox_dateSelected));
+        }
+
+        dateTimePicker.addValueChangeListener(e->{
+            timeBoxObject.timebox_dateSelected = dateTimePicker.getValue().toString();
+            DatabaseTimeBox dtb = new DatabaseTimeBox();
+            dtb.updateTimeBox(timeBoxObject);
+        });
+
+        notesArea.addValueChangeListener(e->{
+            timeBoxObject.timebox_description = notesArea.getValue();
+            DatabaseTimeBox dtb = new DatabaseTimeBox();
+            dtb.updateTimeBox(timeBoxObject);
+        });
+
+        tbtlc = new TimeBoxTaskListComponent(timeBoxObject);
 
         buttonLayout = new HorizontalLayout();
 
         addTask = new Button("", VaadinIcon.PLUS.create(),this::setAddTask);
         addTask.setClassName("buttonprimary");
-        removeTask = new Button("", VaadinIcon.TRASH.create());
+        removeTask = new Button("", VaadinIcon.TRASH.create(),this::setRemoveTask);
         removeTask.setClassName("buttonprimary");
-        detailsTask = new Button("", VaadinIcon.INFO.create());
-        detailsTask.setClassName("buttonprimary");
 
-        buttonLayout.add(addTask,removeTask,detailsTask);
+        buttonLayout.add(addTask,removeTask);
 
     }
 
@@ -98,12 +124,14 @@ public class TimeBoxDetailsComponent extends VerticalLayout {
         rightLayout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         rightLayout.getStyle().set("text-align", "center");
 
+        leftLayout.add(dateTimePicker);
         leftLayout.add(notesArea);
 
         rightLayout.add(new H6(timeBoxObject.timebox_id.toString()));
         rightLayout.add(tbtlc,buttonLayout);
 
         mainLayout.add(leftLayout,rightLayout);
+        add(new H6(timeBoxObject.timebox_name));
         add(mainLayout);
     }
 
@@ -115,5 +143,16 @@ public class TimeBoxDetailsComponent extends VerticalLayout {
         SelectTaskWindow stw = new SelectTaskWindow(timeBoxObject,tbtlc);
         add(stw.main_dialog);
         stw.main_dialog.open();
+    }
+
+    /**
+     * Function for setting removing task
+     * @param ex
+     */
+    private void setRemoveTask(ClickEvent ex){
+        if ( DoneApplication.selected != null ){
+            tbtlc.removeTask(selected);
+            DoneApplication.selected = null;
+        }
     }
 }

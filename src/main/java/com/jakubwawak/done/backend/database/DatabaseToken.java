@@ -63,6 +63,27 @@ public class DatabaseToken {
     }
 
     /**
+     * Function for creating token for user (if user have enabled API)
+     * @param user_id
+     * @return ApiToken
+     */
+    public ApiToken createToken(ObjectId user_id){
+        DatabaseUser databaseUser = new DatabaseUser();
+        ApiToken apiToken = new ApiToken(databaseUser.getUserByID(user_id));
+        MongoCollection collection = database.get_data_collection("done_token");
+        InsertOneResult result = collection.insertOne(apiToken.prepareDocument());
+        if ( result.wasAcknowledged() ){
+            database.log("DB-TOKEN-INSERT","Token created for user ("+user_id.toString()+") ID: "+result.getInsertedId().asObjectId().toString());
+            apiToken.token_id = result.getInsertedId().asObjectId().getValue();
+            return apiToken;
+        }
+        else{
+            database.log("DB-TOKEN-INSERT-FAILED","Failed to insert token for user ("+user_id.toString()+")");
+            return null;
+        }
+    }
+
+    /**
      * Function for deactivating all tokens for a given user
      * @param user_id
      * @return boolean

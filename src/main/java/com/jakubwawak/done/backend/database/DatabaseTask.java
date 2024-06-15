@@ -152,6 +152,44 @@ public class DatabaseTask {
     }
 
     /**
+     * Function for loading user tasks
+     * @param user_id
+     * @return List<DoneTask>
+     */
+    public ArrayList<DoneTask> loadUserTasks(ObjectId user_id){
+        ArrayList<DoneTask> tasks = new ArrayList<>();
+        try {
+            // Get the collection
+            MongoCollection<Document> collection = database.get_data_collection("done_task");
+            // Find the tasks
+            MongoCursor<Document> cursor = collection.find(Filters.eq("user_id", user_id)).iterator();
+            // Convert each document to a DoneTask object and add it to the list
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                DoneTask task = new DoneTask(doc);
+                tasks.add(task);
+            }
+            database.log("DB-TASK-COLLECTION-LOAD","Loaded tasks from database ("+tasks.size()
+                    +" tasks for user ("+user_id.toString()+")");
+        } catch (Exception e) {
+            // Log the error
+            database.log("DB-TASK-LOAD-FAILED", "Failed to load tasks from database (" + e.toString() + ")");
+        }
+        Collections.reverse(tasks); // reverse collection, new on top
+        return tasks;
+    }
+
+    /**
+     * Function for loading task count for UI
+     * @return Integer
+     */
+    public int getNewInProgressTaskCount(){
+        List<DoneTask> newTasks = loadSpecificTasks(1);
+        List<DoneTask> inProgress = loadSpecificTasks(2);
+        return newTasks.size()+inProgress.size();
+    }
+
+    /**
      * Function for reloading data
      * @param  reloadMode
      * reloadMode:

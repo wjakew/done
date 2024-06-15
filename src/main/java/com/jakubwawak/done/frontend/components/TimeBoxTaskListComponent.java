@@ -5,6 +5,7 @@
  */
 package com.jakubwawak.done.frontend.components;
 
+import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.database.DatabaseTask;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.entity.DoneTimeBox;
@@ -41,14 +42,12 @@ public class TimeBoxTaskListComponent extends VirtualList {
 
     DoneTimeBox timeBoxObject;
 
-    DoneTask selected;
 
     /**
      * Constructor
      */
-    public TimeBoxTaskListComponent(DoneTimeBox timeBoxObject,DoneTask selected){
+    public TimeBoxTaskListComponent(DoneTimeBox timeBoxObject){
         this.content = timeBoxObject.currentTask;
-        this.selected = selected;
         this.timeBoxObject = timeBoxObject;
         addClassName("listtask-border");
         databaseTask = new DatabaseTask();
@@ -149,7 +148,8 @@ public class TimeBoxTaskListComponent extends VirtualList {
         cardLayout.add(left_layout,right_layout);
 
         cardLayout.addClickListener(e->{
-            selected = task;
+            DoneApplication.selected = task;
+            DoneApplication.notificationService("Selected ("+DoneApplication.selected.task_name+")",1);
         });
 
         return cardLayout;

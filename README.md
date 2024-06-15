@@ -38,6 +38,8 @@ The DoneMenu class handles user input and executes the corresponding commands. H
 
 - `removekey`: This command is used to remove an API key for a user. It requires one additional argument: the user's email. Usage: `removekey <user_email>`.
 
+- `createtoken`: This command is used to create a new token for a user. It requires one additional argument - user email. Usage: `createtoken <user_email>`.
+
 - `terminal`: This command is used to display a terminal prompt. It does not require any additional arguments. Usage: `terminal`.
 
 - `debug`: This command is used to display a debug prompt. It does not require any additional arguments. Usage: `debug`.
@@ -45,6 +47,17 @@ The DoneMenu class handles user input and executes the corresponding commands. H
 ### Main Page
 
 When you open the application, you'll see the main page. This page displays a list of your tasks. Each task has a title and a checkbox that you can use to mark the task as done.
+
+### API Endpoints
+
+Main endpoints:
+- `/api/health`
+- `/api/token/create/{api_key}/{api_code}`
+- `/api/token/validate/{token}`
+
+Task endpoints:
+- `/api/task/create/{token}/{task_title}`
+- `/api/task/list/{token}`
 
 ### Adding a Task
 ![img_2.png](./readme_resources/img_2.png)<br>
@@ -55,6 +68,13 @@ To add a new task, click on the "Add Task" button located at the top of the main
 To delete a task, click on the "Delete" button next to the task in the list. This will remove the task from your list.
 
 Remember, the goal of DoneApplication is to help you get things done. So, keep your task list up-to-date and try to complete your tasks as soon as possible.
+
+### Creating TimeBox
+
+Timeboxing is a time management technique that involves allocating a fixed amount of time to complete a task or activity.
+It can be used for individual tasks or entire projects. The goal of timeboxing is to improve focus, increase productivity,
+and reduce procrastination by creating a sense of urgency and limiting distractions.
+
 
 # DoneApplication
 

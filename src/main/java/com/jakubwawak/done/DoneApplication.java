@@ -5,6 +5,7 @@
  */
 package com.jakubwawak.done;
 
+import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 import com.jakubwawak.done.datamanager.DoneMenu;
@@ -35,7 +36,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done090624REV1";
+	public static String build = "done150624REV1";
 	public static String version = "1.1.0";
 	public static int debugLogPrintFlag = 1;
 
@@ -43,6 +44,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 
 	public static DoneUser loggedUser;
 	public static ListTaskComponent ltc;
+	public static DoneTask selected;
 
 	public static String runTime;
 
@@ -59,6 +61,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 	 */
 	public static void main(String[] args) {
 		showHeader();
+		selected = null;
 		runTime = LocalDateTime.now().toString();
 		database = new Database();
 		menu = new DoneMenu();

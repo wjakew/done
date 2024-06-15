@@ -145,4 +145,12 @@ public class DatabaseTimeBox {
             return null;
         }
     }
+
+    /**
+     * Function for getting time box counter for logged user
+     * @return
+     */
+    public int getUserTimeBoxCount(){
+        return getLoggedUserTimeBoxList().size();
+    }
 }

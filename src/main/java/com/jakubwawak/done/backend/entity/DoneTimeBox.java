@@ -9,6 +9,7 @@ import com.jakubwawak.done.backend.database.DatabaseTask;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class DoneTimeBox {
         timebox_name = "none";
         timebox_description = "none";
         user_id = new ObjectId();
-        timebox_created = "none";
+        timebox_created = LocalDateTime.now().toString();
         timebox_dateSelected = "none";
         currentTaskObjectId = new ArrayList<>();
         currentTask = new ArrayList<>();
@@ -88,7 +89,7 @@ public class DoneTimeBox {
      * @return
      */
     public String createLabel(){
-        return timebox_name+" ("+currentTask.size()+")";
+        return timebox_name+" ["+currentTask.size()+"]";
     }
 
     /**

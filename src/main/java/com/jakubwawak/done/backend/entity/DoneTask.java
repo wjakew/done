@@ -38,6 +38,19 @@ public class DoneTask {
     }
 
     /**
+     * Constructor with custom user
+     * @param user_id
+     */
+    public DoneTask(ObjectId user_id){
+        task_id = null;
+        this.user_id = user_id;
+        task_name = "NEW";
+        task_status = "";
+        task_timestamp = LocalDateTime.now().toString();
+        task_comments = new ArrayList<>();
+    }
+
+    /**
      * Constructor with database support
      *
      * @param document Document containing task information

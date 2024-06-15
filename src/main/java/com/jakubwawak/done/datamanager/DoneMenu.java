@@ -94,6 +94,17 @@ public class DoneMenu {
                     }
                     break;
                 }
+                case "createtoken":{
+                    if ( words.length == 2 ){
+                        String user_email = words[1];
+                        TokenManager tokenManager = new TokenManager();
+                        tokenManager.rollTokenForUser(user_email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
                 case "terminal":
                 {
                     System.out.print(ConsoleColors.GREEN_BOLD_BRIGHT+"you're so done> "+ ConsoleColors.RESET);

@@ -9,8 +9,10 @@ import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.api.health_endpoint.Health;
 import com.jakubwawak.done.backend.api.token_endpoint.Token;
 import com.jakubwawak.done.backend.entity.ApiToken;
+import com.jakubwawak.done.backend.entity.DoneTask;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Object for storing API response
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 public class Response {
 
     // objects stored as payload
+    public ArrayList<DoneTask> taskList;
     public ApiToken token;
     public Health health;
 
@@ -35,6 +38,7 @@ public class Response {
      */
     public Response(String endpoint){
         token = null;
+        taskList = null;
         health = null;
         this.endpoint_name = endpoint;
         this.response_time = LocalDateTime.now().toString();

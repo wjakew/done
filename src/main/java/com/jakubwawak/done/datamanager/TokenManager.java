@@ -8,7 +8,9 @@ package com.jakubwawak.done.datamanager;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.database.DatabaseAPI;
 import com.jakubwawak.done.backend.database.DatabaseToken;
+import com.jakubwawak.done.backend.database.DatabaseUser;
 import com.jakubwawak.done.backend.entity.ApiToken;
+import com.jakubwawak.done.backend.entity.DoneUser;
 import org.bson.types.ObjectId;
 
 /**
@@ -44,6 +46,32 @@ public class TokenManager {
         }
         DoneApplication.database.log("TOKEN-MANAGER-ROLL","Cannot roll token, invalid api pair ("+apiKey+" "+apiCode+")");
         return null;
+    }
+
+    /**
+     * Function for rolling token for user
+     * @param user_email
+     * @return
+     */
+    public ApiToken rollTokenForUser(String user_email){
+        DatabaseToken databaseToken = new DatabaseToken();
+        DatabaseUser databaseUser = new DatabaseUser();
+        DoneUser user = databaseUser.getUserByEmail(user_email);
+        if ( user != null ){
+            databaseToken.deactivateAllUserTokens(user.user_id);
+            ApiToken apiToken = databaseToken.createToken(user.user_id);
+            if ( apiToken != null ){
+                DoneApplication.database.log("TOKEN-MANAGER-ROLL","Token rolled for user ("+user.user_id.toString()+")");
+                DoneApplication.database.log("TOKEN-MANAGER-INFO","Token ("+apiToken.token_code+") rolled for user ("+user.user_id.toString()+")");
+                return apiToken;
+            }
+            DoneApplication.database.log("TOKEN-MANAGER-ROLL-FAILED","Failed to roll token for user ("+user.user_id.toString()+")");
+            return null;
+        }
+        else{
+            DoneApplication.database.log("TOKEN-MANAGER-ROLL-FAILED","Failed to roll token for user ("+user_email+")");
+            return null;
+        }
     }
 
     /**
