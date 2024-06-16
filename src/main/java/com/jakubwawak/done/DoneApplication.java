@@ -36,9 +36,11 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done150624REV1";
+	public static String build = "done160624REV1";
 	public static String version = "1.1.0";
 	public static int debugLogPrintFlag = 1;
+
+	public static int debugFlag = 0;
 
 	public static Database database; // database connector
 
@@ -71,8 +73,14 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 			database.connect();
 			if (database.connected) {
 				// run web application
-				SpringApplication.run(DoneApplication.class, args);
-				menu.run();
+				if ( debugFlag == 0 ){
+					SpringApplication.run(DoneApplication.class, args);
+					menu.run();
+				}
+				else{
+					consoleWriteService("Running tests...");
+					new DoneTest();
+				}
 			}
 		}
 		else{

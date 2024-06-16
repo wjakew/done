@@ -6,12 +6,14 @@
 package com.jakubwawak.done.backend.database;
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.entity.Log;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import org.bson.Document;
@@ -99,6 +101,23 @@ public class Database {
             if (DoneApplication.debugLogPrintFlag == 1)
                 System.out.println(ConsoleColors.GREEN_BRIGHT+log_category+ConsoleColors.RED_BOLD_BRIGHT+"["+ LocalDateTime.now(ZoneId.of("Europe/Warsaw")).toString()+"] - "+ConsoleColors.GREEN_BOLD_BRIGHT+log_text+"]"+ConsoleColors.RESET);
         }
-        // TODO inserting log to database
+        try{
+            MongoCollection<Document> logCollection = get_data_collection("done_log");
+            Log log = new Log();
+            log.log_category = log_category;
+            log.log_content = log_text;
+            log.log_time = new java.util.Date();
+            log.log_created = new java.util.Date();
+            if ( log_category.contains("FAILED") || log_category.contains("ERROR"))
+                log.log_additionalinfo = "ERROR";
+            else
+                log.log_additionalinfo = "AUDIT";
+            InsertOneResult result = logCollection.insertOne(log.prepareDocument());
+            if (!result.wasAcknowledged()){
+                DoneApplication.consoleWriteService("DB-LOG Log wasn't inserted to database - check app!");
+            }
+        }catch (Exception e){
+            DoneApplication.consoleWriteService("DB-LOG-EXCEPTION "+e.toString());
+        }
     }
 }

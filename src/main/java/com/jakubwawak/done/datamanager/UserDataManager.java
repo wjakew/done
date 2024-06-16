@@ -7,7 +7,9 @@ package com.jakubwawak.done.datamanager;
 
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.database.DatabaseMemory;
 import com.jakubwawak.done.backend.database.DatabaseUser;
+import com.jakubwawak.done.backend.entity.DoneMemory;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.Password_Validator;
 import com.jakubwawak.done.backend.maintanance.RandomWordGeneratorEngine;
@@ -77,6 +79,14 @@ public class UserDataManager {
             DoneApplication.loggedUser = user;
             DoneApplication.database.log("APP-LOGIN","User ("+user.user_email+") logged to the app!");
             DoneApplication.notificationService("Welcome back "+user.user_email+" :3",1);
+            DatabaseMemory dm = new DatabaseMemory();
+            if ( dm.getTodaysMemoryForLoggedUser(DoneApplication.loggedUser.user_id) != null){
+                DoneApplication.notificationService("User has memory for today!",1);
+            }
+            else{
+                DoneMemory doneMemory = new DoneMemory();
+                dm.createMemory(doneMemory);
+            }
             return 1;
         }
         else{

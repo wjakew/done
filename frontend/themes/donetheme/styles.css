@@ -192,6 +192,14 @@ H4{
     font-family: donesecondary;
     color:white;
 }
+.memorylayout{
+    border: solid 1px black;
+}
+.memorylayout H6{
+    font-family: donesecondary;
+    color: black;
+    margin: 10px;
+}
 /*---------------------------------------------------views aka pages styles*/
 .loginview{
     background-color: white;
