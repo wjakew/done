@@ -141,6 +141,11 @@ H4{
 .logincomponent{
 
 }
+.memoriesdetails{
+    font-family: donesecondary;
+    color: black;
+    border: solid 1px black;
+}
 .time-box-details{
     font-family: donesecondary;
     color: black;
@@ -194,6 +199,7 @@ H4{
 }
 .memorylayout{
     border: solid 1px black;
+    cursor: grab;
 }
 .memorylayout H6{
     font-family: donesecondary;

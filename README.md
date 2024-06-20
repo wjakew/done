@@ -75,6 +75,10 @@ Timeboxing is a time management technique that involves allocating a fixed amoun
 It can be used for individual tasks or entire projects. The goal of timeboxing is to improve focus, increase productivity,
 and reduce procrastination by creating a sense of urgency and limiting distractions.
 
+### Creating Memories
+
+Every day when you log to the application done creates an empty memory object for you. You can fill it with your thoughts, ideas, 
+or anything you want to remember.
 
 # DoneApplication
 

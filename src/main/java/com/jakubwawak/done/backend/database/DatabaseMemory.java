@@ -17,6 +17,7 @@ import org.bson.types.ObjectId;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class DatabaseMemory {
@@ -60,6 +61,29 @@ public class DatabaseMemory {
     }
 
     /**
+     * Function for updating memory
+     * @param memory
+     * @return Integer
+     */
+    public int updateMemory(DoneMemory memory){
+        try{
+            MongoCollection<Document> memoryCollection = database.get_data_collection("done_memory");
+            if (memory != null){
+                memoryCollection.replaceOne(Filters.eq("_id", memory.memory_id), memory.prepareDocument());
+                DoneApplication.database.log("DB-MEMORY-UPDATE","Updated memory for user ("+memory.user_id.toString()+")");
+                return 1;
+            }
+            else{
+                DoneApplication.database.log("DB-MEMORY-UPDATE-NULL","Failed to update memory for user (NULL)");
+                return 0;
+            }
+        }catch (Exception e){
+            DoneApplication.database.log("DB-MEMORY-UPDATE-EXCEPTION",""+e.toString());
+            return -1;
+        }
+    }
+
+    /**
      * Function for getting today's memory for logged user
      * @param userId
      * @return DoneMemory
@@ -93,6 +117,7 @@ public class DatabaseMemory {
         for (Document document : documents) {
             mems.add(new DoneMemory(document));
         }
+        Collections.reverse(mems);
         return mems;
     }
 }

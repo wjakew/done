@@ -5,8 +5,11 @@ all rights reserved
 */
 package com.jakubwawak.done.frontend.views;
 
+import com.jakubwawak.done.backend.entity.DoneMemory;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
+import com.jakubwawak.done.frontend.components.MemoriesDetailsComponent;
 import com.jakubwawak.done.frontend.components.MemoryListComponent;
+import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -24,6 +27,10 @@ public class MemoryView extends VerticalLayout {
 
     HeaderComponent header;
 
+    MemoriesDetailsComponent mdc;
+
+    VerticalLayout rightLayout;
+
     /**
      * Constructor
      */
@@ -36,8 +43,20 @@ public class MemoryView extends VerticalLayout {
      * Function for preparing components
      */
     void prepareComponents(){
-        mlc = new MemoryListComponent();
+        mlc = new MemoryListComponent(this);
         header = new HeaderComponent();
+        rightLayout = new VerticalLayout();
+    }
+
+    /**
+     * Function for reloading component detail
+     */
+    public void reloadComponentDetail(){
+        rightLayout.removeAll();
+        if ( mlc.getSelected() != null ){
+            mdc = new MemoriesDetailsComponent(mlc.getSelected());
+            rightLayout.add(mdc);
+        }
     }
 
     /**
@@ -52,7 +71,6 @@ public class MemoryView extends VerticalLayout {
         mainLayout.setVerticalComponentAlignment(Alignment.CENTER);
 
         VerticalLayout leftLayout = new VerticalLayout();
-        VerticalLayout rightLayout = new VerticalLayout();
 
         leftLayout.setWidth("30%");leftLayout.setHeight("100%");
         leftLayout.setJustifyContentMode(JustifyContentMode.CENTER);
@@ -64,12 +82,14 @@ public class MemoryView extends VerticalLayout {
         rightLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         rightLayout.getStyle().set("text-align", "center");
 
-        leftLayout.add(mlc);
+        leftLayout.add(new H6("Your Memories"),mlc);
 
         mainLayout.add(leftLayout,rightLayout);
 
         add(header);
         add(mainLayout);
+
+        reloadComponentDetail();
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);

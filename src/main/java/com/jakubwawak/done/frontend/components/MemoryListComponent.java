@@ -8,9 +8,11 @@ package com.jakubwawak.done.frontend.components;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.database.DatabaseMemory;
 import com.jakubwawak.done.backend.entity.DoneMemory;
+import com.jakubwawak.done.frontend.views.MemoryView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,16 +32,22 @@ public class MemoryListComponent extends VirtualList {
 
     DatabaseMemory databaseMemory;
 
+    DoneMemory selected;
+
+    MemoryView parent;
+
     /**
      * Constructor
      */
-    public MemoryListComponent(){
+    public MemoryListComponent(MemoryView parent){
         this.content = new ArrayList<>();
         databaseMemory = new DatabaseMemory();
+        this.parent = parent;
         addClassName("listtask-border");
         loadMemories();
         setItems(content);
         setRenderer(doneMemoryRenderer);
+
     }
 
     private ComponentRenderer<Component, DoneMemory> doneMemoryRenderer = new ComponentRenderer<>(memory ->{
@@ -58,6 +66,12 @@ public class MemoryListComponent extends VirtualList {
 
         cardLayout.add(infoLayout);
 
+        cardLayout.addClickListener(e->{
+            selected = memory;
+            DoneApplication.notificationService("Selected memory: "+memory.memory_date.toString(),1);
+            parent.reloadComponentDetail();
+        });
+
         return cardLayout;
     });
 
@@ -67,6 +81,15 @@ public class MemoryListComponent extends VirtualList {
     public void loadMemories(){
         content.clear();
         content.addAll(databaseMemory.getCollectionOfMemoriesLoggedUser());
+        selected = content.get(0);
         getDataProvider().refreshAll();
+    }
+
+    /**
+     * Function for loading selected objects by user click
+     * @return DoneMemory
+     */
+    public DoneMemory getSelected(){
+        return selected;
     }
 }
