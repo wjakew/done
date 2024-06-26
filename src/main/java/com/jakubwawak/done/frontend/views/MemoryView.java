@@ -19,7 +19,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 /**
  * Main application web view
  */
-@PageTitle("memories")
+@PageTitle("memories to store.")
 @Route("memories")
 public class MemoryView extends VerticalLayout {
 

@@ -5,11 +5,11 @@
  */
 package com.jakubwawak.done.frontend.components;
 
-import com.jakubwawak.done.backend.database.DatabaseTask;
+import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.database.DatabaseNote;
+import com.jakubwawak.done.backend.entity.DoneNote;
 import com.jakubwawak.done.backend.entity.DoneTask;
-import com.jakubwawak.done.backend.maintanance.GridElement;
-import com.jakubwawak.done.datamanager.TaskDataManager;
-import com.jakubwawak.done.frontend.windows.DoneTaskDetailsWindow;
+import com.jakubwawak.done.frontend.views.NotesView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -29,29 +29,34 @@ import java.util.List;
 /**
  * UI object for creating task list
  */
-public class ListTaskComponent extends VirtualList {
+public class NoteListComponent extends VirtualList {
 
-    public List<DoneTask> content;
-    DatabaseTask databaseTask;
+    public List<DoneNote> content;
+    DatabaseNote databaseNote;
 
+    NotesView parent;
     public DoneTask selected;
 
-    public int reloadMode;
-
-    public ListTaskComponent(){
+    public NoteListComponent(NotesView parent){
         super();
-        reloadMode = 0;
-        addClassName("listtask");
-        databaseTask = new DatabaseTask();
-        content = databaseTask.loadAllTasks();
+        this.parent = parent;
+        addClassName("listtask-border");
+        databaseNote = new DatabaseNote();
+        content = databaseNote.loadAllLoggedUserNotes();
         selected = null;
         setItems(content);
         setRenderer(donetaskRenderer);
+        setWidth("30%");
+        setHeight("100%");
     }
 
-    private ComponentRenderer<Component, DoneTask> donetaskRenderer = new ComponentRenderer<>(task ->{
-        TaskDetailsComponent tdc = new TaskDetailsComponent(task,this,0);
-        return tdc;
+    private ComponentRenderer<Component, DoneNote> donetaskRenderer = new ComponentRenderer<>(note ->{
+        NoteDetailsComponent ndc = new NoteDetailsComponent(note);
+        ndc.addClickListener(e->{
+            parent.reloadEditor(note);
+            DoneApplication.notificationService("Reloaded: "+note.note_title,1);
+        });
+        return ndc;
     });
 
     /**
@@ -65,7 +70,7 @@ public class ListTaskComponent extends VirtualList {
      */
     public void reload(){
         content.clear();
-        content.addAll(databaseTask.loadSpecificTasks(reloadMode));
+        content.addAll(databaseNote.loadAllLoggedUserNotes());
         getDataProvider().refreshAll();
     }
 }

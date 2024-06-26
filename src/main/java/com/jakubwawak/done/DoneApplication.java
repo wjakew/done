@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done210624REV1";
+	public static String build = "done240624REV1";
 	public static String version = "1.1.0";
 	public static int debugLogPrintFlag = 1;
 
@@ -81,6 +81,9 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 					consoleWriteService("Running tests...");
 					new DoneTest();
 				}
+			}
+			else{
+				consoleWriteService("Failed to connect to database!");
 			}
 		}
 		else{

@@ -58,6 +58,15 @@ vaadin-combo-box-item{
     border-style: solid;
     border-color: black;
 }
+vaadin-menu-bar-button{
+   --lumo-primary-color:black;
+    background-color: transparent;
+    color: black;
+    font-family: donemain;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
 .buttonprimary[focused]{
    background-color: red;
 }
@@ -138,6 +147,11 @@ H4{
     color:white;
 }
 /*---------------------------------------------------components styles */
+.noteeditor{
+    font-family: donesecondary;
+    color: black;
+    border: solid 1px black;
+}
 .logincomponent{
 
 }
@@ -205,6 +219,10 @@ H4{
     font-family: donesecondary;
     color: black;
     margin: 10px;
+}
+.header-border{
+    border: solid 1px black;
+    margin: 5px;
 }
 /*---------------------------------------------------views aka pages styles*/
 .loginview{

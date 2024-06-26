@@ -24,6 +24,8 @@ public class DoneNote {
     public ObjectId user_id; // User ID related to the note
     public List<ObjectId> note_connectedObjects; // List of connected objects to the note
 
+    private boolean newFlag;
+
     /**
      * Default constructor
      */
@@ -34,6 +36,7 @@ public class DoneNote {
         note_creationtime = new Date();
         user_id = DoneApplication.loggedUser.user_id;
         note_connectedObjects = new ArrayList<>();
+        newFlag = true;
     }
 
     /**
@@ -46,7 +49,8 @@ public class DoneNote {
         note_raw = document.getString("note_raw");
         note_creationtime = document.getDate("note_creationtime");
         user_id = document.getObjectId("user_id");
-        note_connectedObjects = (List<ObjectId>) document.get("note_connectedObjects");
+        note_connectedObjects = document.getList("note_connectedObjects",ObjectId.class);
+        newFlag = false;
     }
 
     /**
@@ -61,5 +65,13 @@ public class DoneNote {
         document.append("user_id", user_id);
         document.append("note_connectedObjects", note_connectedObjects);
         return document;
+    }
+
+    public boolean getNewFlag(){
+        return newFlag;
+    }
+
+    public void setNewFlag(boolean newFlag){
+        this.newFlag = newFlag;
     }
 }
