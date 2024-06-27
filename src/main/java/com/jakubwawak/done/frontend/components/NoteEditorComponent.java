@@ -8,10 +8,10 @@ package com.jakubwawak.done.frontend.components;
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.database.DatabaseNote;
 import com.jakubwawak.done.backend.entity.DoneNote;
+import com.jakubwawak.done.frontend.views.NotesView;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -44,11 +44,14 @@ public class NoteEditorComponent extends VerticalLayout {
 
     VerticalLayout left,right;
 
+    NotesView parent;
+
     /**
      * Constructor
      */
-    public NoteEditorComponent(DoneNote doneNote){
+    public NoteEditorComponent(DoneNote doneNote, NotesView parent){
         this.note = doneNote;
+        this.parent = parent;
         addClassName("noteeditor");
         prepareLayout();
 
@@ -177,6 +180,7 @@ public class NoteEditorComponent extends VerticalLayout {
             int ans = dn.insertNote(note);
             if ( ans == 1 ){
                 DoneApplication.notificationService("note saved",1);
+                parent.nlc.reload();
             }
             else {
                 DoneApplication.notificationService("failed to save note", 2);
@@ -186,6 +190,7 @@ public class NoteEditorComponent extends VerticalLayout {
             int ans = dn.updateNote(note);
             if ( ans == 1 ){
                 DoneApplication.notificationService("note updated",1);
+                parent.nlc.reload();
             }
             else{
                 DoneApplication.notificationService("failed to update note",2);

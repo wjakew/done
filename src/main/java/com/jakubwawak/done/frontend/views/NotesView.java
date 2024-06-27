@@ -10,12 +10,9 @@ import com.jakubwawak.done.backend.entity.DoneNote;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.NoteEditorComponent;
 import com.jakubwawak.done.frontend.components.NoteListComponent;
-import com.jakubwawak.done.frontend.windows.APIWindow;
-import com.jakubwawak.done.frontend.windows.ChangePasswordWindow;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -35,7 +32,13 @@ public class NotesView extends VerticalLayout {
 
     Button openListDrawerButton;
 
-    NoteListComponent nlc;
+    public NoteListComponent nlc;
+
+    VerticalLayout editorLayout;
+
+    VerticalLayout listLayout;
+
+    Button addNotebutton, deleteButton;
 
     /**
      * Constructor
@@ -50,10 +53,33 @@ public class NotesView extends VerticalLayout {
      * Function for preparing components
      */
     void prepareComponents(){
+
+        editorLayout = new VerticalLayout();
+
+        editorLayout.setSizeFull();
+        editorLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        editorLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+        editorLayout.getStyle().set("text-align", "center");
+
+        listLayout = new VerticalLayout();
+
+        listLayout.setWidth("30%");listLayout.setHeight("100%");
+        listLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        listLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+        listLayout.getStyle().set("text-align", "center");
+
+        addNotebutton = new Button("Add",VaadinIcon.PLUS.create(),this::setAddNoteButton);
+        addNotebutton.addClassName("buttonprimary");
+
+        deleteButton = new Button("Delete",VaadinIcon.TRASH.create());
+        deleteButton.addClassName("buttonprimary");
+        deleteButton.getStyle().set("color","red");
+
+
         header = new HeaderComponent();
-        nec = new NoteEditorComponent(new DoneNote());
+        nec = new NoteEditorComponent(new DoneNote(),this);
         nlc = new NoteListComponent(this);
-        nlc.setVisible(false);
+        nlc.setSizeFull();
         nlc.reload();
 
         openListDrawerButton = new Button("",VaadinIcon.ARROW_RIGHT.create(),this::setOpenListDrawerButton);
@@ -81,7 +107,14 @@ public class NotesView extends VerticalLayout {
             prepareComponents();
             add(header);
 
-            horizontalLayout.add(nlc,openListDrawerButton,nec);
+            HorizontalLayout buttonLayout = new HorizontalLayout(addNotebutton,deleteButton);
+
+            listLayout.add(buttonLayout,nlc);
+            listLayout.setVisible(false);
+            editorLayout.add(nec);
+
+
+            horizontalLayout.add(listLayout,openListDrawerButton,editorLayout);
 
             mainLayout.add(horizontalLayout);
 
@@ -99,13 +132,22 @@ public class NotesView extends VerticalLayout {
     }
 
     /**
+     * Function for setting save button
+     * @param ex
+     */
+    private void setAddNoteButton(ClickEvent ex){
+        DoneNote new_note = new DoneNote();
+        reloadEditor(new DoneNote());
+    }
+
+    /**
      * Function for reloading editor
      * @param note
      */
     public void reloadEditor(DoneNote note){
-        nec = new NoteEditorComponent(note);
-        removeAll();
-        prepareLayout();
+        nec = new NoteEditorComponent(note,this);
+        editorLayout.removeAll();
+        editorLayout.add(nec);
     }
 
     /**
@@ -113,12 +155,12 @@ public class NotesView extends VerticalLayout {
      * @param ex
      */
     public void setOpenListDrawerButton(ClickEvent ex){
-        if ( nlc.isVisible() ){
-            nlc.setVisible(false);
+        if ( listLayout.isVisible() ){
+            listLayout.setVisible(false);
             openListDrawerButton.setIcon(VaadinIcon.ARROW_RIGHT.create());
         }
         else{
-            nlc.setVisible(true);
+            listLayout.setVisible(true);
             openListDrawerButton.setIcon(VaadinIcon.ARROW_LEFT.create());
         }
     }
