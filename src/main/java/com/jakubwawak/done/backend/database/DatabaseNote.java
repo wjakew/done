@@ -94,6 +94,30 @@ public class DatabaseNote {
     }
 
     /**
+     * Function for removing note from database
+     * @param toRemove
+     * @return Integer
+     */
+    public int removeNote(DoneNote toRemove){
+        try{
+            MongoCollection<Document> noteCollection = database.get_data_collection("done_note");
+            if (toRemove != null){
+                Document query = new Document("_id",toRemove.note_id);
+                noteCollection.deleteOne(query);
+                DoneApplication.database.log("DB-NOTE-REMOVE","Removed note for user ("+toRemove.user_id.toString()+")");
+                return 1;
+            }
+            else{
+                DoneApplication.database.log("DB-NOTE-REMOVE-NULL","Failed to remove note for user (NULL)");
+                return 0;
+            }
+        }catch(Exception ex){
+            DoneApplication.database.log("DB-NOTE-REMOVE-EXCEPTION","Failed to remove note for user"+ex.toString());
+            return -1;
+        }
+    }
+
+    /**
      * Function for loading all logged user notes
      * @return
      */

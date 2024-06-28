@@ -20,7 +20,7 @@ import javax.xml.validation.Validator;
  */
 public class MenuComponent extends SideNav {
 
-    SideNavItem taskItem, settingsItem, timeboxItem, memoryItem, noteItem, logoutItem;
+    SideNavItem dashboardItem,taskItem, settingsItem, timeboxItem, memoryItem, noteItem, logoutItem;
 
     /**
      * Constructor
@@ -28,13 +28,16 @@ public class MenuComponent extends SideNav {
     public MenuComponent(){
         super();
         createItems();
-        addItem(taskItem,timeboxItem,memoryItem,noteItem,settingsItem,logoutItem);
+        addItem(dashboardItem,taskItem,timeboxItem,memoryItem,noteItem,settingsItem,logoutItem);
     }
 
     /**
      * Function for creating items
      */
     void createItems(){
+        dashboardItem = new SideNavItem("Dashboard", DashboardView.class, VaadinIcon.CHART.create());
+        dashboardItem.addClassName("buttonprimary");
+
         taskItem = new SideNavItem("My Tasks", TaskView.class, VaadinIcon.TASKS.create());
         taskItem.addClassName("buttonprimary");
 

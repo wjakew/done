@@ -38,8 +38,11 @@ public class ListTaskComponent extends VirtualList {
 
     public int reloadMode;
 
-    public ListTaskComponent(){
+    int visualMode;
+
+    public ListTaskComponent(int visualMode){
         super();
+        this.visualMode = visualMode;
         reloadMode = 0;
         addClassName("listtask");
         databaseTask = new DatabaseTask();
@@ -50,7 +53,7 @@ public class ListTaskComponent extends VirtualList {
     }
 
     private ComponentRenderer<Component, DoneTask> donetaskRenderer = new ComponentRenderer<>(task ->{
-        TaskDetailsComponent tdc = new TaskDetailsComponent(task,this,0);
+        TaskDetailsComponent tdc = new TaskDetailsComponent(task,this,visualMode);
         return tdc;
     });
 

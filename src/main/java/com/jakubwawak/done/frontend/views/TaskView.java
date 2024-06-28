@@ -48,7 +48,7 @@ public class TaskView extends VerticalLayout {
     void prepareComponents(){
         header = new HeaderComponent();
         insertTaskComponent = new InsertTaskComponent(null);
-        DoneApplication.ltc = new ListTaskComponent();
+        DoneApplication.ltc = new ListTaskComponent(0);
 
         filterCombobox = new ComboBox<>("Filters");
 

@@ -57,7 +57,7 @@ public class SelectTaskWindow {
      */
     void prepare_components(){
         // set components
-        ltc = new ListTaskComponent();
+        ltc = new ListTaskComponent(1);
         insertTaskComponent = new InsertTaskComponent(ltc);
 
         select_button = new Button("Select Task",this::setSelect_button);

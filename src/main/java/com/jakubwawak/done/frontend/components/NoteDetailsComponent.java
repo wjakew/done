@@ -25,7 +25,8 @@ public class NoteDetailsComponent extends HorizontalLayout {
         this.doneNote = doneNote;
 
         prepareLayout();
-        addClassName("memoriesdetails");
+        addClassName("memorylayout");
+        setMargin(true);
         setAlignItems(Alignment.CENTER);
         setVerticalComponentAlignment(Alignment.CENTER);
         setWidthFull();
@@ -39,13 +40,11 @@ public class NoteDetailsComponent extends HorizontalLayout {
         left_layout.setSizeFull();
         left_layout.setJustifyContentMode(JustifyContentMode.CENTER);
         left_layout.setAlignItems(Alignment.CENTER);
-        left_layout.setWidth("80%");
 
         FlexLayout right_layout = new FlexLayout();
         right_layout.setSizeFull();
         right_layout.setJustifyContentMode(JustifyContentMode.END);
         right_layout.setAlignItems(Alignment.END);
-        right_layout.setWidth("80%");
 
         left_layout.add(new H6(doneNote.note_title));
         add(left_layout,right_layout);

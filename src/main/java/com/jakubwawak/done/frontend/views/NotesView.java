@@ -6,6 +6,7 @@ all rights reserved
 package com.jakubwawak.done.frontend.views;
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.database.DatabaseNote;
 import com.jakubwawak.done.backend.entity.DoneNote;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.NoteEditorComponent;
@@ -71,7 +72,7 @@ public class NotesView extends VerticalLayout {
         addNotebutton = new Button("Add",VaadinIcon.PLUS.create(),this::setAddNoteButton);
         addNotebutton.addClassName("buttonprimary");
 
-        deleteButton = new Button("Delete",VaadinIcon.TRASH.create());
+        deleteButton = new Button("Delete",VaadinIcon.TRASH.create(),this::setDeleteButton);
         deleteButton.addClassName("buttonprimary");
         deleteButton.getStyle().set("color","red");
 
@@ -138,6 +139,24 @@ public class NotesView extends VerticalLayout {
     private void setAddNoteButton(ClickEvent ex){
         DoneNote new_note = new DoneNote();
         reloadEditor(new DoneNote());
+    }
+
+    /**
+     * Function for setting delete button
+     * @param ex
+     */
+    public void setDeleteButton(ClickEvent ex){
+        if ( nlc.selected != null ){
+            DatabaseNote databaseNote = new DatabaseNote();
+            if ( databaseNote.removeNote(nlc.selected) == 1 ){
+                reloadEditor(new DoneNote());
+                nlc.reload();
+                DoneApplication.notificationService("note removed",1);
+            }
+        }
+        else{
+            DoneApplication.notificationService("no note selected",0);
+        }
     }
 
     /**

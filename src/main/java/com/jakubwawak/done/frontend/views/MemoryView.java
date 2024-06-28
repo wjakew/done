@@ -5,10 +5,12 @@ all rights reserved
 */
 package com.jakubwawak.done.frontend.views;
 
+import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.entity.DoneMemory;
 import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.MemoriesDetailsComponent;
 import com.jakubwawak.done.frontend.components.MemoryListComponent;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -63,38 +65,45 @@ public class MemoryView extends VerticalLayout {
      * Function for preparing layout data
      */
     void prepareLayout(){
-        prepareComponents();
 
-        HorizontalLayout mainLayout = new HorizontalLayout();
-        mainLayout.setSizeFull();
-        mainLayout.setAlignItems(Alignment.CENTER);
-        mainLayout.setVerticalComponentAlignment(Alignment.CENTER);
+        if (DoneApplication.loggedUser != null ){
+            prepareComponents();
 
-        VerticalLayout leftLayout = new VerticalLayout();
+            HorizontalLayout mainLayout = new HorizontalLayout();
+            mainLayout.setSizeFull();
+            mainLayout.setAlignItems(Alignment.CENTER);
+            mainLayout.setVerticalComponentAlignment(Alignment.CENTER);
 
-        leftLayout.setWidth("30%");leftLayout.setHeight("100%");
-        leftLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        leftLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        leftLayout.getStyle().set("text-align", "center");
+            VerticalLayout leftLayout = new VerticalLayout();
 
-        rightLayout.setSizeFull();
-        rightLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        rightLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        rightLayout.getStyle().set("text-align", "center");
+            leftLayout.setWidth("30%");leftLayout.setHeight("100%");
+            leftLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+            leftLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+            leftLayout.getStyle().set("text-align", "center");
 
-        leftLayout.add(new H6("Your Memories"),mlc);
+            rightLayout.setSizeFull();
+            rightLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+            rightLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+            rightLayout.getStyle().set("text-align", "center");
 
-        mainLayout.add(leftLayout,rightLayout);
+            leftLayout.add(new H6("Your Memories"),mlc);
 
-        add(header);
-        add(mainLayout);
+            mainLayout.add(leftLayout,rightLayout);
 
-        reloadComponentDetail();
+            add(header);
+            add(mainLayout);
 
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
+            reloadComponentDetail();
+
+            setSizeFull();
+            setJustifyContentMode(JustifyContentMode.CENTER);
+            setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+            getStyle().set("text-align", "center");
+        }
+        // user is not logged
+        else{
+            add(new H1("no one is logged! forbidden access"));
+        }
     }
 
 }

@@ -103,7 +103,7 @@ public class LoginComponent extends VerticalLayout {
             if ( ans == 1 ){
                 // route to home screen
                 login_button.getUI().ifPresent(ui ->
-                        ui.navigate("/tasks"));
+                        ui.navigate("/dashboard"));
             }
             else{
                 DoneApplication.notificationService("Wrong user or password!",1);

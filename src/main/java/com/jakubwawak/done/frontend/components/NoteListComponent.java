@@ -11,19 +11,9 @@ import com.jakubwawak.done.backend.entity.DoneNote;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.frontend.views.NotesView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H6;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.virtuallist.VirtualList;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +25,7 @@ public class NoteListComponent extends VirtualList {
     DatabaseNote databaseNote;
 
     NotesView parent;
-    public DoneTask selected;
+    public DoneNote selected;
 
     public NoteListComponent(NotesView parent){
         super();
@@ -55,6 +45,7 @@ public class NoteListComponent extends VirtualList {
         ndc.addClickListener(e->{
             parent.reloadEditor(note);
             DoneApplication.notificationService("Reloaded: "+note.note_title,1);
+            selected = note;
         });
         return ndc;
     });

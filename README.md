@@ -70,15 +70,23 @@ To delete a task, click on the "Delete" button next to the task in the list. Thi
 Remember, the goal of DoneApplication is to help you get things done. So, keep your task list up-to-date and try to complete your tasks as soon as possible.
 
 ### Creating TimeBox
+![img_5.png](./readme_resources/img_5.png)
 
 Timeboxing is a time management technique that involves allocating a fixed amount of time to complete a task or activity.
 It can be used for individual tasks or entire projects. The goal of timeboxing is to improve focus, increase productivity,
 and reduce procrastination by creating a sense of urgency and limiting distractions.
 
 ### Creating Memories
+![img_3.png](./readme_resources/img_3.png)
 
 Every day when you log to the application done creates an empty memory object for you. You can fill it with your thoughts, ideas, 
 or anything you want to remember.
+
+### Creating Notes
+![img_4.png](./readme_resources/img_4.png)
+
+Notes are a great way to organize your thoughts, ideas, and information.
+You can create notes for different topics, projects, or tasks.
 
 # DoneApplication
 

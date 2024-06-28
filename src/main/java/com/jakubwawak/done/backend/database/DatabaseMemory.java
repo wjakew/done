@@ -14,6 +14,8 @@ import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -119,5 +121,35 @@ public class DatabaseMemory {
         }
         Collections.reverse(mems);
         return mems;
+    }
+
+    /**
+     * Function for getting memory by id
+     * @return ArrayList
+     */
+    public ArrayList<Double> calculateUserMood(){
+        ArrayList<Double> data = new ArrayList<>();
+        ArrayList<DoneMemory> memories = getCollectionOfMemoriesLoggedUser();
+        double happy_Mood = 0;
+        double stress_Mood = 0;
+        double count = 0;
+        for (DoneMemory memory : memories){
+            happy_Mood += memory.memory_happystate;
+            stress_Mood += memory.memory_stresstate;
+            count++;
+        }
+        if ( count != 0 ){
+            happy_Mood = happy_Mood/count;
+        }
+        data.add(round(happy_Mood/count,2));
+        data.add(round(stress_Mood/count,2));
+        return data;
+    }
+
+    double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
