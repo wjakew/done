@@ -24,6 +24,8 @@ public class HeaderComponent extends HorizontalLayout {
 
     Button menuButton;
 
+    QuickMenuComponent quickMenuComponent;
+
     public HeaderComponent(){
         super();
         setWidth(UI_WIDTH);
@@ -43,6 +45,8 @@ public class HeaderComponent extends HorizontalLayout {
         menuButton = new Button("", VaadinIcon.MENU.create(),this::setMenuButton);
         menuButton.addClassName("buttonprimary");
 
+        quickMenuComponent = new QuickMenuComponent();
+
         // prepare window layout and components
         FlexLayout center_layout = new FlexLayout();
         center_layout.setSizeFull();
@@ -61,10 +65,11 @@ public class HeaderComponent extends HorizontalLayout {
 
         FlexLayout right_layout = new FlexLayout();
         right_layout.setSizeFull();
-        right_layout.setJustifyContentMode(JustifyContentMode.START);
-        right_layout.setAlignItems(FlexComponent.Alignment.END);
+        right_layout.setJustifyContentMode(JustifyContentMode.END);
+        right_layout.setAlignItems(FlexComponent.Alignment.CENTER);
         right_layout.add();
         right_layout.setWidth("80%");
+        //right_layout.add(quickMenuComponent); - TODO: add quick menu component
 
         add(left_layout,center_layout,right_layout);
     }

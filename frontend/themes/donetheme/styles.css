@@ -1,18 +1,18 @@
 /*---------------------------------------------------root style compnents */
 @font-face {
   font-family: donemain;
-  src: url("/terminal-grotesque.ttf");
+  src: url("./terminal-grotesque.ttf");
 }
 @font-face {
   font-family: donesecondary;
-  src: url("/Eirian.ttf");
+  src: url("./Eirian.ttf");
 }
 /*
 vaadin-combo-box-item{
     border: 1px;
     border-style: solid;
     border-color: black;
-    font-family:donesecondary;
+    font-family:donesecondary, Monospace;
     color: black;
     pointer-events: none;
 }
@@ -20,13 +20,13 @@ vaadin-combo-box-item{
 .notification::part(overlay){
     background-color: black;
     color: white;
-    font-family:donesecondary;
+    font-family:donesecondary, Monospace;
     border: 1px;
     border-style: solid;
     border-color: white;
 }
 .textfield{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     border-color: #c47cd4;
     --vaadin-input-field-border-width: 1px;
     --vaadin-input-field-border-color: black;
@@ -38,7 +38,7 @@ vaadin-combo-box-item{
     --vaadin-input-field-hover-highlight: red;
 }
 .textfield-white{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     border-color: #white;
     --vaadin-input-field-border-width: 1px;
     --vaadin-input-field-border-color: white;
@@ -53,7 +53,7 @@ vaadin-combo-box-item{
    --lumo-primary-color:black;
     background-color: transparent;
     color: black;
-    font-family: donemain;
+    font-family: donemain, Monospace;
     border: 1px;
     border-style: solid;
     border-color: black;
@@ -62,7 +62,7 @@ vaadin-menu-bar-button{
    --lumo-primary-color:black;
     background-color: transparent;
     color: black;
-    font-family: donemain;
+    font-family: donemain, Monospace;
     border: 1px;
     border-style: solid;
     border-color: black;
@@ -71,7 +71,7 @@ vaadin-menu-bar-button{
    background-color: red;
 }
 Text{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
     font-size: 2rem;
 }
@@ -79,13 +79,13 @@ Text{
     --lumo-primary-color:white;
     background-color: transparent;
     color: white;
-    font-family: donemain;
+    font-family: donemain, Monospace;
     border: 1px;
     border-style: solid;
     border-color: white;
 }
 .buttonbig{
-    font-family: donemain;
+    font-family: donemain, Monospace;
     font-size: 3rem;
     background-color: transparent;
     color: black;
@@ -94,15 +94,15 @@ Text{
 
 }
 H3{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
 }
 H6{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
 }
 H4{
-    font-family: donemain;
+    font-family: donemain, Monospace;
     color: black;
 }
 .tasklayout{
@@ -131,24 +131,24 @@ H4{
  .aim-grid::part(cell){
      background-color: black;
      color: white;
-     font-family: aim_main;
+     font-family: donesecondary, Monospace;
  }
  .aim-grid::part(header-cell){
      background-color: black;
      color: white;
-     font-family: aim_main;
+     font-family: donesecondary, Monospace;
  }
  .done-task-details-window-layout H3{
-    font-family: donemain;
+    font-family: donemain, Monospace;
     color: white;
  }
 .done-task-details-window-layout H6{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color:white;
 }
 /*---------------------------------------------------components styles */
 .noteeditor{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
     border: solid 1px black;
 }
@@ -156,31 +156,31 @@ H4{
 
 }
 .memoriesdetails{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
     border: solid 1px black;
 }
 .time-box-details{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
     border: solid 1px black;
 }
 .logincomponent H1{
-    font-family: donemain;
+    font-family: donemain, Monospace;
     font-size: 7rem;
 }
 .logincomponent H6{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
 }
 .header{
 
 }
 .textfield-insertwindow{
-    font-family: donemain;
+    font-family: donemain, Monospace;
     font-size: 7rem;
 }
 .header H4{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
 }
 .done-task-details-window::part(overlay){
@@ -204,11 +204,11 @@ H4{
      background-color: transparent;
  }
 .done-task-details-window H6{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color:white;
 }
 .done-task-details-window H3{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color:white;
 }
 .memorylayout{
@@ -216,7 +216,7 @@ H4{
     cursor: grab;
 }
 .memorylayout H6{
-    font-family: donesecondary;
+    font-family: donesecondary, Monospace;
     color: black;
     margin: 10px;
 }
@@ -232,6 +232,6 @@ H4{
     background-color: white;
 }
 .taskview H1{
-    font-family:donemain;
+    font-family:donemain, Monospace;
     color: black;
 }
