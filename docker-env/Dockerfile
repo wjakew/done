@@ -10,7 +10,7 @@ WORKDIR /app
 COPY application/done.jar /app/done.jar
 
 # Expose the ports
-EXPOSE 8080
+EXPOSE 8080 27017
 
 # Start MongoDB and the application
-CMD ["sh", "-c", "mongod --bind_ip_all --logpath /var/log/mongod.log --logappend & sleep 5 && java -jar /app/done.jar"]
+CMD ["sh", "-c", "mongod --bind_ip_all --logpath /var/log/mongod.log --logappend & sleep 5 && java -jar /app/done.jar mongodb://localhost:27017"]
