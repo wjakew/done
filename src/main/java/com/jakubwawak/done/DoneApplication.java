@@ -5,6 +5,7 @@
  */
 package com.jakubwawak.done;
 
+import com.jakubwawak.done.backend.database.DatabaseHistory;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
@@ -36,13 +37,14 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done290624REV1";
-	public static String version = "1.1.0";
+	public static String build = "done230824REV1";
+	public static String version = "1.2.0";
 	public static int debugLogPrintFlag = 1;
 
 	public static int debugFlag = 0;
 
 	public static Database database; // database connector
+	public static DatabaseHistory databaseHistory;
 
 	public static DoneUser loggedUser;
 	public static ListTaskComponent ltc;
@@ -72,6 +74,7 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 			database.setDatabase_url(databaseURL);
 			database.connect();
 			if (database.connected) {
+				databaseHistory = new DatabaseHistory();
 				// run web application
 				if ( debugFlag == 0 ){
 					SpringApplication.run(DoneApplication.class, args);

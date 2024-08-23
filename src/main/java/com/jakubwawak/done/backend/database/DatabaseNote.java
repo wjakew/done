@@ -40,6 +40,7 @@ public class DatabaseNote {
                 InsertOneResult result = noteCollection.insertOne(doneNote.prepareDocument());
                 if ( result.wasAcknowledged() ){
                     DoneApplication.database.log("DB-NOTE-INSERT","Inserted new note for user ("+doneNote.user_id.toString()+")");
+                    DoneApplication.databaseHistory.addHistoryEntry("note","Created new note "+doneNote.note_title,"CREATE",result.getInsertedId().asObjectId().getValue(),doneNote.user_id);
                     doneNote.note_id = Objects.requireNonNull(result.getInsertedId()).asObjectId().getValue();
                     return 1;
                 }

@@ -45,6 +45,7 @@ public class DatabaseMemory {
                 InsertOneResult result = memoryCollection.insertOne(memory.prepareDocument());
                 if (result.wasAcknowledged()){
                     DoneApplication.database.log("DB-MEMORY-CREATE","Created new memory for user ("+memory.user_id.toString()+")");
+                    DoneApplication.databaseHistory.addHistoryEntry("memory","Created new memory "+memory.memory_date.toString(),"CREATE",result.getInsertedId().asObjectId().getValue(),memory.user_id);
                     return 1;
                 }
                 else{
@@ -73,6 +74,7 @@ public class DatabaseMemory {
             if (memory != null){
                 memoryCollection.replaceOne(Filters.eq("_id", memory.memory_id), memory.prepareDocument());
                 DoneApplication.database.log("DB-MEMORY-UPDATE","Updated memory for user ("+memory.user_id.toString()+")");
+                DoneApplication.databaseHistory.addHistoryEntry("memory","Updated memory "+memory.memory_date.toString(),"UPDATE",memory.memory_id,memory.user_id);
                 return 1;
             }
             else{
@@ -80,7 +82,7 @@ public class DatabaseMemory {
                 return 0;
             }
         }catch (Exception e){
-            DoneApplication.database.log("DB-MEMORY-UPDATE-EXCEPTION",""+e.toString());
+            DoneApplication.database.log("DB-MEMORY-UPDATE-EXCEPTION","Failed to update memory: "+e.toString());
             return -1;
         }
     }

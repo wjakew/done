@@ -48,6 +48,7 @@ public class DatabaseTask {
                 InsertOneResult result = task_collection.insertOne(doneTask.prepareDocument());
                 if ( result.wasAcknowledged() ){
                     database.log("DB-TASK-INSERT","Created new task ("+result.getInsertedId().asObjectId().toString()+")");
+                    DoneApplication.databaseHistory.addHistoryEntry("task","Created new task "+doneTask.task_name,"CREATE",result.getInsertedId().asObjectId().getValue(),doneTask.user_id);
                     return 1;
                 }
                 database.log("DB-TASK-INSERT-NULL","Tried to insert but database responded with result null!");
@@ -82,6 +83,7 @@ public class DatabaseTask {
             // If we reach this point, the operation was successful
             if (result.wasAcknowledged()){
                 database.log("DB-TASK-UPDATE","Updated task in database ("+task.task_id.toString()+")");
+                DoneApplication.databaseHistory.addHistoryEntry("task","Updated new task "+task.task_name,"CREATE",task.task_id,task.user_id);
                 return true;
             }
             else{
@@ -249,6 +251,7 @@ public class DatabaseTask {
             if ( toDelete != null ){
                 task_collection.deleteOne(eq("_id",toDelete.task_id));
                 database.log("DB-TASK-DELETE","Deleted task ("+toDelete.task_id.toString()+")");
+                DoneApplication.databaseHistory.addHistoryEntry("task","Removed task "+toDelete.task_name,"CREATE",null,toDelete.user_id);
                 return 1;
             }
             return -2;

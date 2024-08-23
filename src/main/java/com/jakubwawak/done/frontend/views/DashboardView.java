@@ -54,6 +54,7 @@ public class DashboardView extends VerticalLayout {
         databaseMemory = new DatabaseMemory();
         addClassName("taskview");
         getStyle().set("margin","15px");
+        getStyle().set("overflow","hidden");
         prepareLayout();
     }
 

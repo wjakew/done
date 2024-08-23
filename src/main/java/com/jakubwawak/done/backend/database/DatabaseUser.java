@@ -41,6 +41,7 @@ public class DatabaseUser {
                 InsertOneResult result = user_collection.insertOne(userToAdd.prepareDocument());
                 if ( result.wasAcknowledged() ){
                     database.log("DB-JUSER-INSERT","New user ("+userToAdd.user_email+") added!");
+                    DoneApplication.databaseHistory.addHistoryEntry("user","User created","CREATE",result.getInsertedId().asObjectId().getValue(),result.getInsertedId().asObjectId().getValue());
                     return 1;
                 }
                 else{
@@ -72,6 +73,7 @@ public class DatabaseUser {
                 DoneUser user = new DoneUser(user_document);
                 if ( user.user_password.equals(pv.hash()) ){
                     database.log("DB-JUSER-LOGIN","Found user ("+userEmail+") logging in!");
+                    DoneApplication.databaseHistory.addHistoryEntry("user","User logged in","LOGIN",user.user_id,user.user_id);
                     return user;
                 }
                 else{
