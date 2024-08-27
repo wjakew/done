@@ -8,6 +8,7 @@ package com.jakubwawak.done.frontend.components;
 
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.datamanager.UserDataManager;
+import com.jakubwawak.done.frontend.windows.CreateUserWindow;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -15,6 +16,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H6;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +34,8 @@ public class LoginComponent extends VerticalLayout {
     PasswordField password_field;
 
     Button login_button;
+
+    Button create_user_button;
 
     /**
      * Constructor
@@ -63,6 +67,16 @@ public class LoginComponent extends VerticalLayout {
         login_button = new Button("Let's fuckin go!",this::setLogin_button);
         login_button.addClassName("buttonprimary");
         login_button.setMinWidth("70%");
+
+        create_user_button = new Button("Join this instance", VaadinIcon.PLUG.create(),this::setCreate_user_button);
+        create_user_button.addClassName("buttonprimary");
+
+        if ( DoneApplication.enableUserCreationFlag == 1){
+            create_user_button.setEnabled(true);
+        }
+        else{
+            create_user_button.setEnabled(false);
+        }
     }
 
     /**
@@ -75,6 +89,7 @@ public class LoginComponent extends VerticalLayout {
         add(login_field);
         add(password_field);
         add(login_button);
+        add(create_user_button);
 
         password_field.addKeyPressListener(e->{
             if ( e.getKey().equals(Key.ENTER)){
@@ -91,6 +106,15 @@ public class LoginComponent extends VerticalLayout {
         login();
     }
 
+    /**
+     * Function for creating user button
+     * @param ex
+     */
+    private void setCreate_user_button(ClickEvent ex){
+        CreateUserWindow cuw = new CreateUserWindow();
+        add(cuw.main_dialog);
+        cuw.main_dialog.open();
+    }
     /**
      * Function for login logic
      */

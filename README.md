@@ -26,13 +26,19 @@ This project is built with a variety of technologies:
 
 The DoneApplication user interface is designed to be simple and straightforward to help you get things done without any distractions.
 
+## First run
+
+The App creates ADMIN account on start if none of the accounts created is admin account - the check is run every time 
+instance starts. The mail for the auto admin account is stored in the database, you can check the log entry with
+`DB-ADMIN-INSERT` tag or check `done_user` table in database.
+
 ## DoneMenu Commands
 
 The DoneMenu class handles user input and executes the corresponding commands. Here's a brief description of the commands and their usage:
 
 - `exit`: This command is used to exit the application. It does not require any additional arguments. Usage: `exit`.
 
-- `register`: This command is used to register a new user. It requires three additional arguments: email, password, and telephone. The email should be a valid email address, and the password should be more than 8 characters long. Usage: `register <email> <password> <telephone>`.
+- `register`: This command is used to register a new user. It requires three additional arguments: email, password, telephone and role (ROLES: `USER`,`ADMIN`). The email should be a valid email address, and the password should be more than 8 characters long. Usage: `register <email> <password> <telephone>`.
 
 - `createkey`: This command is used to create a new API key for a user. It requires one additional argument: the user's email. Usage: `createkey <user_email>`.
 

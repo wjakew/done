@@ -93,6 +93,10 @@ Text{
 .buttonsecondary{
 
 }
+H1{
+    font-family: donesecondary, Monospace;
+    color: black;
+}
 H3{
     font-family: donesecondary, Monospace;
     color: black;

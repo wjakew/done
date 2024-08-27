@@ -6,6 +6,7 @@
 package com.jakubwawak.done;
 
 import com.jakubwawak.done.backend.database.DatabaseHistory;
+import com.jakubwawak.done.backend.database.DatabaseUser;
 import com.jakubwawak.done.backend.entity.DoneTask;
 import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
@@ -37,11 +38,12 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done230824REV1";
+	public static String build = "done270824REV1";
 	public static String version = "1.2.0";
 	public static int debugLogPrintFlag = 1;
 
 	public static int debugFlag = 0;
+	public static int enableUserCreationFlag = 1;
 
 	public static Database database; // database connector
 	public static DatabaseHistory databaseHistory;
@@ -77,6 +79,13 @@ public class DoneApplication extends SpringBootServletInitializer implements App
 				databaseHistory = new DatabaseHistory();
 				// run web application
 				if ( debugFlag == 0 ){
+					DatabaseUser databaseUser = new DatabaseUser();
+
+					// creating ADMIN account
+					if ( databaseUser.verifyIfUserWithAdminRoleExists() != 1){
+						databaseUser.createUserAdminDefault();
+					}
+
 					SpringApplication.run(DoneApplication.class, args);
 					menu.run();
 				}

@@ -46,12 +46,12 @@ public class DoneMenu {
                 {
                     // 0        1     2        3
                     // register email password telephone
-                    if (words.length == 4){
+                    if (words.length == 5){
                         Matcher matcher = DoneApplication.VALID_EMAIL_ADDRESS_REGEX.matcher(words[1]);
                         if ( matcher.matches() ){
                             if ( words[2].length() > 8 ){
                                 UserDataManager udm = new UserDataManager();
-                                int ans = udm.registerUser(words[1],words[2],words[3]);
+                                int ans = udm.registerUser(words[1],words[2],words[3],words[4]);
                                 if ( ans == 1 ){
                                     DoneApplication.consoleWriteService("Account created!");
                                 }

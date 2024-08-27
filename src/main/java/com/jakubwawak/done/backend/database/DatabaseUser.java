@@ -59,6 +59,51 @@ public class DatabaseUser {
     }
 
     /**
+     * Function for verifying if user with admin role exists
+     * @return Integer
+     */
+    public int verifyIfUserWithAdminRoleExists(){
+        try{
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
+            Document user_document = user_collection.find(new Document("user_role","ADMIN")).first();
+            if ( user_document != null ){
+                DoneUser user = new DoneUser(user_document);
+                database.log("DB-JUSER-GET","Found user ("+user.user_email+"/"+user.user_id.toString()+")");
+                return 1;
+            }
+            else{
+                database.log("DB-JUSER-GET-NOTFOUND","Cannot found user with ADMIN role");
+                return 0;
+            }
+        }catch(Exception ex){
+            database.log("DB-JUSER-GET-FAILED","Failed to get user on database ("+ex.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
+     * Function for creating default admin user
+     * @return Integer
+     */
+    public int createUserAdminDefault(){
+        try{
+            DoneUser user = new DoneUser();
+            RandomWordGeneratorEngine rwge = new RandomWordGeneratorEngine();
+            String emailFirst = rwge.generateRandomString(15,false,false);
+            user.user_email = emailFirst+"@done.com";
+            Password_Validator pv = new Password_Validator("admin");
+            user.user_password = pv.hash();
+            user.user_role = "ADMIN";
+            database.log("DB-ADMIN-INSERT","Inserting default admin "+user.user_email+", password: admin");
+            return createUser(user);
+        }catch(Exception e){
+            database.log("DB-ADMIN-INSERT-FAILED","Failed to insert user on database ("+e.toString()+")");
+            return -1;
+        }
+    }
+
+
+    /**
      * Function for logging user to the app
      * @param userEmail
      * @param userPassword

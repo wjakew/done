@@ -17,6 +17,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -39,6 +40,7 @@ public class SettingsView extends VerticalLayout {
 
     Button changePasswordButton;
     Button apiButton;
+    Button adminButton;
 
 
     /**
@@ -62,6 +64,13 @@ public class SettingsView extends VerticalLayout {
         apiButton = new Button("done api", VaadinIcon.KEY.create(),this::setApiButton);
         apiButton.addClassName("buttonbig");
 
+        adminButton = new Button("admin panel", VaadinIcon.COG.create());
+        adminButton.addClassName("buttonbig");
+
+        if ( DoneApplication.loggedUser.user_role.equals("ADMIN")){
+            add(adminButton);
+        }
+
     }
 
     /**
@@ -82,6 +91,7 @@ public class SettingsView extends VerticalLayout {
             add(header);
             mainLayout.add(changePasswordButton,apiButton);
             add(mainLayout);
+            add(new H4("account role: "+DoneApplication.loggedUser.user_role));
             add(new H4("by Jakub Wawak all rights reserved"));
         }
 

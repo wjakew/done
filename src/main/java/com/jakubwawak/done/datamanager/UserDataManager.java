@@ -14,6 +14,8 @@ import com.jakubwawak.done.backend.entity.DoneUser;
 import com.jakubwawak.done.backend.maintanance.Password_Validator;
 import com.jakubwawak.done.backend.maintanance.RandomWordGeneratorEngine;
 
+import java.util.ArrayList;
+
 /**
  * Object for creating actions on user
  */
@@ -34,11 +36,14 @@ public class UserDataManager {
      * @param userTelephone
      * @return DoneUser
      */
-    public int registerUser(String userEmail, String userPassword, String userTelephone){
+    public int registerUser(String userEmail, String userPassword, String userTelephone,String role){
         try{
             DoneUser newUser = new DoneUser();
             RandomWordGeneratorEngine rwge = new RandomWordGeneratorEngine();
             Password_Validator pv = new Password_Validator(userPassword);
+            ArrayList<String> roles = new ArrayList<>();
+            roles.add("USER");
+            roles.add("ADMIN");
             if ( databaseUser.getUserByEmail(userEmail) == null ){
                 newUser.user_email = userEmail;
                 newUser.user_password = pv.hash();
@@ -47,6 +52,13 @@ public class UserDataManager {
                 newUser.user_telephone = userTelephone;
                 newUser.user_wallpaperURL = "blank";
                 newUser.user_iconURL = "blank";
+                if ( roles.contains(role)  ){
+                    newUser.user_role = role;
+                }
+                else{
+                    newUser.user_role = "USER";
+                    DoneApplication.database.log("REGISTER-USER-ROLE","Role not found, set to USER");
+                }
                 int ans = databaseUser.createUser(newUser);
                 if ( ans == 1 ){
                     DoneApplication.database.log("REGISTER-USER-CREATED","New user created ("+newUser.user_email+")");
