@@ -72,6 +72,61 @@ public class DoneMenu {
                     }
                     break;
                 }
+                case "mkadmin":{
+                    if ( words.length == 2 ){
+                        String email = words[1];
+                        UserDataManager udm = new UserDataManager();
+                        udm.makeUserAdmin(email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "lock":{
+                    if ( words.length == 2 ){
+                        String email = words[1];
+                        UserDataManager udm = new UserDataManager();
+                        udm.lockUser(email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "unlock":{
+                    if ( words.length == 2 ){
+                        String email = words[1];
+                        UserDataManager udm = new UserDataManager();
+                        udm.unlockuser(email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "mkuser":{
+                    if ( words.length == 2 ){
+                        String email = words[1];
+                        UserDataManager udm = new UserDataManager();
+                        udm.makeUserUser(email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
+                case "resetpass":{
+                    if ( words.length == 2 ){
+                        String email = words[1];
+                        UserDataManager udm = new UserDataManager();
+                        udm.resetPassword(email);
+                    }
+                    else{
+                        DoneApplication.consoleWriteService("Wrong command usage, check help :3");
+                    }
+                    break;
+                }
                 case "createkey":{
                     if ( words.length == 2 ){
                         String user_email = words[1];

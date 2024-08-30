@@ -15,6 +15,8 @@ import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
+
 /**
  * Object for creating / maintaining user data on database
  */
@@ -54,6 +56,30 @@ public class DatabaseUser {
 
         }catch(Exception ex){
             database.log("DB-JUSER-INSERT-FAILED","Failed to insert user on database ("+ex.toString()+")");
+            return -1;
+        }
+    }
+
+    /**
+     * Function for updating user entry on database
+     * @param userToUpdate
+     * @return Integer
+     */
+    public int updateUser(DoneUser userToUpdate){
+        try{
+            MongoCollection<Document> user_collection = database.get_data_collection("done_user");
+            if ( userToUpdate != null ){
+                Document updatedDocument = userToUpdate.prepareDocument();
+                user_collection.updateOne(Filters.eq("_id", userToUpdate.user_id), new Document("$set", updatedDocument));
+                database.log("DB-JUSER-UPDATE","User ("+userToUpdate.user_email+") updated!");
+                DoneApplication.databaseHistory.addHistoryEntry("user","User updated","UPDATE",userToUpdate.user_id,userToUpdate.user_id);
+                return 1;
+            }
+            database.log("DB-JUSER-UPDATE-EMPTY","Empty object given - nothing to update");
+            return 2;
+
+        }catch(Exception ex){
+            database.log("DB-JUSER-UPDATE-FAILED","Failed to update user on database ("+ex.toString()+")");
             return -1;
         }
     }
@@ -262,6 +288,25 @@ public class DatabaseUser {
                 // Log the error
                 database.log("DB-JUSER-PASSWORD-CHANGE-FAILED", "Failed to change password (" + e.toString() + ")");
                 return false;
+            }
+        }
+
+    /**
+     * Function for getting all users
+     * @return ArrayList
+     */
+    public ArrayList<DoneUser> getAllUsers(){
+            try{
+                MongoCollection<Document> user_collection = database.get_data_collection("done_user");
+                ArrayList<DoneUser> users = new ArrayList<>();
+                for (Document doc : user_collection.find()){
+                    DoneUser user = new DoneUser(doc);
+                    users.add(user);
+                }
+                return users;
+            }catch(Exception e){
+                database.log("DB-JUSER-GETALL-FAILED","Failed to get all users ("+e.toString()+")");
+                return null;
             }
         }
 

@@ -22,6 +22,7 @@ public class DoneUser {
     public String user_wallpaperURL;
     public String user_iconURL;
     public String user_role; // roles: USER, ADMIN, if empty disable login ability
+    public int user_active; // 1 - active, 0 - inactive
 
     /**
      * Default constructor
@@ -36,6 +37,7 @@ public class DoneUser {
         user_wallpaperURL = "";
         user_iconURL = "";
         user_role = "";
+        user_active = 1;
     }
 
     /**
@@ -52,6 +54,7 @@ public class DoneUser {
         user_wallpaperURL = document.getString("user_wallpaperURL");
         user_iconURL = document.getString("user_iconURL");
         user_role = document.getString("user_role");
+        user_active = document.getInteger("user_active");
     }
     /**
      * Function for preparing document of object
@@ -67,6 +70,7 @@ public class DoneUser {
         document.append("user_wallpaperURL",user_wallpaperURL);
         document.append("user_iconURL",user_iconURL);
         document.append("user_role",user_role);
+        document.append("user_active",user_active);
         return document;
     }
 }

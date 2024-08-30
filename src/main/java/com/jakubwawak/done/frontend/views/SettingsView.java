@@ -11,6 +11,7 @@ import com.jakubwawak.done.frontend.components.HeaderComponent;
 import com.jakubwawak.done.frontend.components.InsertTaskComponent;
 import com.jakubwawak.done.frontend.components.ListTaskComponent;
 import com.jakubwawak.done.frontend.windows.APIWindow;
+import com.jakubwawak.done.frontend.windows.AdminWindow;
 import com.jakubwawak.done.frontend.windows.ChangePasswordWindow;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.button.Button;
@@ -64,12 +65,8 @@ public class SettingsView extends VerticalLayout {
         apiButton = new Button("done api", VaadinIcon.KEY.create(),this::setApiButton);
         apiButton.addClassName("buttonbig");
 
-        adminButton = new Button("admin panel", VaadinIcon.COG.create());
+        adminButton = new Button("admin panel", VaadinIcon.COG.create(),this::setAdminButton);
         adminButton.addClassName("buttonbig");
-
-        if ( DoneApplication.loggedUser.user_role.equals("ADMIN")){
-            add(adminButton);
-        }
 
     }
 
@@ -87,9 +84,14 @@ public class SettingsView extends VerticalLayout {
 
 
         if (DoneApplication.loggedUser != null){
+
             prepareComponents();
             add(header);
             mainLayout.add(changePasswordButton,apiButton);
+
+            if ( DoneApplication.loggedUser.user_role.equals("ADMIN")){
+                mainLayout.add(adminButton);
+            }
             add(mainLayout);
             add(new H4("account role: "+DoneApplication.loggedUser.user_role));
             add(new H4("by Jakub Wawak all rights reserved"));
@@ -113,6 +115,16 @@ public class SettingsView extends VerticalLayout {
     private  void setApiButton(ClickEvent ex){
         APIWindow apiWindow = new APIWindow();
         apiWindow.main_dialog.open();
+    }
+
+    /**
+     * Function for setting admin button
+     * @param ex
+     */
+    private void setAdminButton(ClickEvent ex){
+        AdminWindow adminWindow = new AdminWindow();
+        add(adminWindow.main_dialog);
+        adminWindow.main_dialog.open();
     }
 
 }

@@ -126,8 +126,14 @@ public class LoginComponent extends VerticalLayout {
             int ans = udm.loginUser(login,password);
             if ( ans == 1 ){
                 // route to home screen
-                login_button.getUI().ifPresent(ui ->
-                        ui.navigate("/dashboard"));
+                if ( DoneApplication.loggedUser.user_active == 1){
+                    login_button.getUI().ifPresent(ui ->
+                            ui.navigate("/dashboard"));
+                }
+            }
+            if ( ans == 0 ){
+                DoneApplication.notificationService("Account is locked!",1);
+                DoneApplication.loggedUser = null;
             }
             else{
                 DoneApplication.notificationService("Wrong user or password!",1);

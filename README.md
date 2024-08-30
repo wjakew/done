@@ -46,6 +46,16 @@ The DoneMenu class handles user input and executes the corresponding commands. H
 
 - `createtoken`: This command is used to create a new token for a user. It requires one additional argument - user email. Usage: `createtoken <user_email>`.
 
+- `mkadmin`: This command is used to make a user an admin. It requires one additional argument - user email. Usage: `mkadmin <user_email>`.
+
+- `mkuser`: This command is used to make a user a user. It requires one additional argument - user email. Usage: `mkuser <user_email>`.
+
+- `resetpass`: This command is used to reset a user's password. It requires two additional arguments: the user's email and the new password. Usage: `resetpass <user_email`
+
+- `lock`: This command is used to lock a user's account. It requires one additional argument: the user's email. Usage: `lock <user_email>`.
+
+- `unlock`: This command is used to unlock a user's account. It requires one additional argument: the user's email. Usage: `unlock <user_email>`.
+
 - `terminal`: This command is used to display a terminal prompt. It does not require any additional arguments. Usage: `terminal`.
 
 - `debug`: This command is used to display a debug prompt. It does not require any additional arguments. Usage: `debug`.
