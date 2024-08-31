@@ -15,6 +15,12 @@ public class Token {
     public String api_key_corelated;
 
 
+    /**
+     * Constructor
+     * @param token_code
+     * @param token_time
+     * @param api_key_corelated
+     */
     public Token(String token_code, String token_time, String api_key_corelated){
         this.token_code = token_code;
         this.token_time = token_time;
