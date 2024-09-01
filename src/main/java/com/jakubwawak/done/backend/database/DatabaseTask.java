@@ -98,6 +98,41 @@ public class DatabaseTask {
         }
     }
 
+
+    /**
+     * Function for updating task status
+     * @param task_id
+     * @param newStatus
+     * @return boolean
+     */
+    public boolean updateTaskStatus(ObjectId task_id, String newStatus){
+        try {
+            // Get the collection
+            MongoCollection<Document> collection = database.get_data_collection("done_task");
+
+            // Create the update operation
+            Bson updateOperation = new Document("$set", new Document("task_status", newStatus));
+
+            // Update the document
+            UpdateResult result = collection.updateOne(eq("_id", task_id), updateOperation);
+
+            // If we reach this point, the operation was successful
+            if (result.wasAcknowledged()){
+                database.log("DB-TASK-UPDATE","Updated task in database ("+task_id.toString()+")");
+                return true;
+            }
+            else{
+                database.log("DB-TASK-UPDATE-NULL","Tried to update but database responded with result null!");
+                return false;
+            }
+        } catch (Exception e) {
+            // Log the error
+            database.log("DB-TASK-UPDATE-FAILED", "Failed to update task in database (" + e.toString() + ")");
+            // The operation was not successful
+            return false;
+        }
+    }
+
     /**
      * Function for retrieving a DoneTask object from the database given an ObjectId
      * @param id The ObjectId of the DoneTask object to retrieve

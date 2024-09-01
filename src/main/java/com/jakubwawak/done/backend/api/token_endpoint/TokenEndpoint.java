@@ -55,6 +55,7 @@ public class TokenEndpoint {
             response.response_description = "Error ("+e.toString()+")";
             response.user_email = "none";
         }
+        response.summarizeResponse();
         return response;
     }
 
@@ -102,6 +103,7 @@ public class TokenEndpoint {
             response.response_description = "Error ("+e.toString()+")";
             response.user_email = "none";
         }
+        response.summarizeResponse();
         return response;
     }
 }

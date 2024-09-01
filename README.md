@@ -60,6 +60,10 @@ The DoneMenu class handles user input and executes the corresponding commands. H
 
 - `debug`: This command is used to display a debug prompt. It does not require any additional arguments. Usage: `debug`.
 
+### Administration using Web UI
+
+The web UI provides an easy way to manage users, tasks, and API keys. You can create new users, update user roles, reset passwords, and lock/unlock accounts.
+
 ### Main Page
 
 When you open the application, you'll see the main page. This page displays a list of your tasks. Each task has a title and a checkbox that you can use to mark the task as done.

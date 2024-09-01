@@ -10,9 +10,11 @@ import com.jakubwawak.done.backend.maintanance.GridElement;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
+import javax.swing.text.DateFormatter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Object for storing entity information about a journal task
@@ -62,6 +64,19 @@ public class DoneTask {
         task_status = document.getString("task_status");
         task_timestamp = document.getString("task_timestamp");
         task_comments = document.getList("task_comments",String.class);
+    }
+
+    /**
+     * DoneTask
+     * @param body
+     */
+    public DoneTask(Map<String,Object> body){
+        task_id = (ObjectId) body.get("task_id");
+        user_id = DoneApplication.loggedUser.user_id;
+        task_name = (String) body.get("task_name");
+        task_status = (String) body.get("task_status");
+        task_timestamp = LocalDateTime.parse((String) body.get("task_timestamp")).toString();
+        task_comments.addAll((ArrayList<String>) body.get("task_comments"));
     }
 
     /**

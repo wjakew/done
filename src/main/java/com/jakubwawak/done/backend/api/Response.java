@@ -7,6 +7,7 @@ package com.jakubwawak.done.backend.api;
 
 import com.jakubwawak.done.DoneApplication;
 import com.jakubwawak.done.backend.entity.ApiToken;
+import org.bson.Document;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -47,10 +48,30 @@ public class Response {
     }
 
     /**
+     * Function for preparing document to save
+     * @return Document
+     */
+    public Document prepareDocument(){
+        Document document = new Document();
+        document.append("token",token.prepareDocument());
+        document.append("endpoint_name",endpoint_name);
+        document.append("endpoint_method",endpoint_method);
+        document.append("response_time",response_time);
+        document.append("server_name",server_name);
+        document.append("user_email",user_email);
+        document.append("response_description",response_description);
+        document.append("response_code",response_code);
+        document.append("response_usedTokenKey",response_usedTokenKey);
+        document.append("body",body);
+        return document;
+    }
+
+    /**
      * Function for summarizing response after the object is created and filled with data
      */
     public void summarizeResponse(){
-        //TODO
+        if ( DoneApplication.enableAPILogging == 1 )
+            DoneApplication.database.logRequestResponse(this);
     }
 
 }

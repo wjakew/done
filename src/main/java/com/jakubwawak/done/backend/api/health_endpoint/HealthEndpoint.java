@@ -29,6 +29,7 @@ public class HealthEndpoint {
         response.response_description = "Health endpoint working";
         response.body.put("database_connected", DoneApplication.database.connected);
         response.body.put("server_name", DoneApplication.SERVER_NAME);
+        response.summarizeResponse();
         return response;
     }
 }

@@ -40,6 +40,7 @@ public class AdminWindow {
 
     Button enableaccoutcreation_button;
     Button createUser;
+    Button enableApiLogging;
 
     VirtualList<DoneUser> user_list;
     ArrayList<DoneUser> user_content;
@@ -65,6 +66,10 @@ public class AdminWindow {
         enableaccoutcreation_button.setWidthFull();
         enableaccoutcreation_button.addClassName("buttonprimary");
 
+        enableApiLogging = new Button("Enable API Logging",VaadinIcon.PLUG.create(),this::setEnableApiLogging);
+        enableApiLogging.addClassName("buttonprimary");
+        enableApiLogging.setWidthFull();
+
         if (DoneApplication.enableUserCreationFlag == 1){
             enableaccoutcreation_button.setText("Disable Account Creation");
             enableaccoutcreation_button.getStyle().set("color","red");
@@ -73,6 +78,17 @@ public class AdminWindow {
             enableaccoutcreation_button.setText("Enable Account Creation");
             enableaccoutcreation_button.getStyle().set("color","green");
         }
+
+        if ( DoneApplication.enableAPILogging == 1 ){
+            enableApiLogging.setText("Disable API Logging");
+            enableApiLogging.getStyle().set("color","red");
+        }
+        else{
+            enableApiLogging.setText("Enable API Logging");
+            enableApiLogging.getStyle().set("color","green");
+        }
+
+
         DatabaseUser du = new DatabaseUser();
         user_list = new VirtualList<>();
         user_content = du.getAllUsers();
@@ -102,7 +118,7 @@ public class AdminWindow {
         // set layout
 
         main_layout.add(new H6("ADMIN MANAGMENT"));
-        main_layout.add(new H6("User Creation"),enableaccoutcreation_button);
+        main_layout.add(new H6("User Creation"),enableaccoutcreation_button,enableApiLogging);
         main_layout.add(new H6("User Managment"));
         main_layout.add(user_list);
         main_layout.add(createUser);
@@ -153,6 +169,23 @@ public class AdminWindow {
             DoneApplication.enableUserCreationFlag = 1;
             enableaccoutcreation_button.setText("Disable Account Creation");
             enableaccoutcreation_button.getStyle().set("color","red");
+        }
+    }
+
+    /**
+     * Function for enabling API logging action
+     * @param ex
+     */
+    private void setEnableApiLogging(ClickEvent ex){
+        if (DoneApplication.enableAPILogging == 1){
+            DoneApplication.enableAPILogging = 0;
+            enableApiLogging.setText("Enable API Logging");
+            enableApiLogging.getStyle().set("color","green");
+        }
+        else{
+            DoneApplication.enableAPILogging = 1;
+            enableApiLogging.setText("Disable API Logging");
+            enableApiLogging.getStyle().set("color","red");
         }
     }
 }

@@ -38,12 +38,13 @@ import java.util.regex.Pattern;
 @Theme(value="donetheme")
 public class DoneApplication extends SpringBootServletInitializer implements AppShellConfigurator {
 
-	public static String build = "done310824REV1";
+	public static String build = "done010924REV1";
 	public static String version = "1.2.0";
 	public static int debugLogPrintFlag = 1;
 
 	public static int debugFlag = 0;
 	public static int enableUserCreationFlag = 1;
+	public static int enableAPILogging = 1;
 
 	public static Database database; // database connector
 	public static DatabaseHistory databaseHistory;

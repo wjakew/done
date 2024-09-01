@@ -6,6 +6,7 @@
 package com.jakubwawak.done.backend.database;
 
 import com.jakubwawak.done.DoneApplication;
+import com.jakubwawak.done.backend.api.Response;
 import com.jakubwawak.done.backend.entity.Log;
 import com.jakubwawak.done.backend.maintanance.ConsoleColors;
 import com.mongodb.*;
@@ -80,6 +81,22 @@ public class Database {
      */
     MongoCollection<Document> get_data_collection(String collection_name){
         return mongoDatabase.getCollection(collection_name);
+    }
+
+    /**
+     * Function for saving the responses to database
+     * @param responseToArchive
+     */
+    public void logRequestResponse(Response responseToArchive){
+        MongoCollection<Document> responseCollection = get_data_collection("done_apihistory");
+        try{
+            InsertOneResult result = responseCollection.insertOne(responseToArchive.prepareDocument());
+            if ( !result.wasAcknowledged() ){
+                log("DB-REQUEST-ARCHIVE-NOUPDATE","Failed to archive request, nothing to store in database");
+            }
+        }catch (Exception ex){
+            log("DB-REQUEST-ARCHIVE-FAILED","Failed to log request ("+ex.toString()+")");
+        }
     }
 
     /**
